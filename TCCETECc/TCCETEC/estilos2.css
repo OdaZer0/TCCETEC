@@ -1,0 +1,15 @@
+.btnz {
+    color: red;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s ease; 
+}
+
+.btnz:hover {
+    color: darkred;
+    cursor: pointer;
+}
+
+
+

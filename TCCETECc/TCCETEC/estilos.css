@@ -1,0 +1,402 @@
+ body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4f4;
+}
+
+.form {
+    background-color: #fff;
+    width: 100%;
+    max-width: 400px; /* Largura fixa semelhante ao carrossel */
+    height: 500px; /* Altura fixa */
+    margin: 4% auto;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    overflow-y: auto;
+}
+input[type="text"], input[type="email"], input[type="password"], textarea {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+    box-shadow: 4px 6px 8px rgba(0, 0, 0, 0.1);
+}
+input[type="submit"] {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.input-group1 {
+        margin-bottom: 15px;
+        padding: 10px;
+}
+.input-group label {
+    display: flex;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.input-group input {
+    width: 100%;
+}
+
+.labelinf {
+    font-size: 12px;
+}
+.input-container {
+    display: flex;
+}
+
+.input-container input {
+    flex: 1; /* Isso faz com que os inputs ocupem a mesma largura */
+    margin-right: 10px; /* Adiciona um espaçamento entre os inputs */
+}
+
+.navbar {
+    box-shadow:  35px 25px 70px #bebebe;
+}
+
+.carousel {
+  transition-duration: 2s;
+  max-width: 100%; /* Redimensiona a largura da imagem para caber no contêiner */
+  max-height: 500px;
+  }
+
+  .caroseldiv {
+    padding-top: 15vh;
+  }
+
+
+.carousel-innera img {
+    width: 100%; /* Adjust the width as needed */
+    max-height: 180px; /* Adjust as needed */
+    max-width: 900px;
+    object-fit: cover;
+    margin-top: -2%;
+}
+
+.carousel-control-preva,
+.carousel-control-nexta {
+    width: 5%;
+    padding-top: 8%;
+}
+
+.carousel-control-preva {
+    left: -6%; /* Adjust as needed */
+}
+.carousel-control-nexta {
+    right: -4%; /* Adjust as needed */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(1);
+}
+
+
+.carousel-itema img {
+    border-radius: 15px; /* Ajuste este valor conforme necessário */
+}
+
+
+  .custom-font {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+color: orange;  }
+
+  .custom-font2 {
+    font-weight: bold;
+    color: orange;  }
+
+
+  .custom-font2_1 {
+    font-weight: bold;
+    color: orange;  }
+
+  .custom-font2_2 {
+    font-weight: bold;
+    color: orange;  }
+
+  .custom-font3 {
+    font-weight: bold;
+    color: black;
+  }
+
+  .accordion-item {
+      border: none; /* Remove a borda dos itens do accordion */
+      border-radius: 5px;
+  }
+
+  .accordion-button {
+      border: none; /* Remove a borda dos botões do accordion */
+      border-radius: 5px;
+      color: orange;
+  }
+
+  .accordion-body {
+      border: none; /* Remove a borda dos corpos dos itens do accordion */
+      padding: 0; /* Remove o preenchimento padrão */
+      border-radius: 5px;
+  }
+
+  .btnc:hover {
+    transform: scale(1.1) rotate(5deg); /* Aumenta em 10% e inclina 5 graus */
+    color: orange;    color: orange;
+    color: white;
+}
+
+
+/* Define a duração e o tipo da animação de transição */
+.btnc {
+    transition: transform 0.3s ease, background-color 0.4s ease;
+    cursor: pointer;
+}
+
+
+.txtalign {
+    text-align: center;
+    padding-top: 3%;
+}
+
+
+.btna {
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+    .btna:hover {
+    transform: scale(1.1); /* Aumenta em 10% e inclina 5 graus */
+    color: white;
+    }
+
+
+.btnb {
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    border-color: orange; 
+    color: orange;
+}
+
+.btnb:hover {
+    transform: scale(1.1); /* Aumenta em 10% e inclina 5 graus */
+    color: white;
+    background-color: orange;
+    
+}
+
+.btnlink {
+    color: white;
+}
+
+.cardimgsize {
+    max-width: 100%;
+    max-height: 200px; /* Ajuste esta altura conforme necessário */
+    object-fit: cover; /* Esta propriedade ajusta como a imagem deve se ajustar dentro das dimensões */
+}
+
+.cardshadow {
+    box-shadow:  10px 10px 10px #bebebe;
+}
+
+.menubuttons {
+color: white; 
+font-weight: bold;
+text-decoration: none;
+}
+
+.footertitles {
+    color: white;
+    text-decoration: none;
+    padding-top: 5%;
+    font-family: 'Baloo Tammudu', cursive;
+    font-size: 24px;
+    margin-bottom: 1px;
+}
+
+.footerbuttons {
+    display: block;
+    text-align: left;
+    color: white;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    background-color: transparent;
+    border: none;
+    margin-top: 1px;
+    padding-left: 20%;
+    cursor: pointer;
+   
+}
+
+.footerbuttons:hover {
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    color: lightgray;
+}
+
+.footertitles-contato {
+    color: white;
+    text-decoration: none;
+    padding-top: 25%;
+    font-family: 'Baloo Tammudu', cursive;
+    font-size: 24px;
+    text-align: left;
+}
+
+.footertext {
+    text-align: left;
+    color: white;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    margin: 2px 0;
+}
+
+.footermedias {
+    text-align: right;
+    padding-left: 90%;
+
+}
+
+.principaltitles {
+    font-family: 'Baloo Tammudu', cursive;
+    padding-top: 5%;
+    padding-left: 10%;
+    font-weight: bold;
+}
+
+.principaltext {
+    font-family: 'Baloo Tammudu', cursive;
+    padding-left: 5%;
+    font-size: 17px;
+}
+
+.principalcardtitle1 {
+    color: orange;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+
+
+.principalcardtitle3 {
+    color: orange;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.carousel-control-prevb {
+    left: -9%; /* Adjust as needed */
+}
+.carousel-control-nextb {
+    right: -9%; /* Adjust as needed */
+}
+
+.principalcardong {
+    color: #000000;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.principalbodybutton {
+    font-family: 'Baloo Tammudu', cursive;
+    background-color: transparent;
+    margin-top: 6%;
+    margin-right: 6%;
+}
+
+.principalcardbutton {
+    font-family: 'Poppins', sans-serif;
+    background-color: transparent;
+    color: orange;
+    border-color: orange;
+    border: solid 2px;
+    width: 100%;
+}
+
+.principalcardbutton:hover {
+    color: #ffffff;
+    border-color: orange;
+    background-color: orange;
+}
+
+.principalcardbutton2 {
+    color: rgb(0, 0, 0); 
+    font-weight: bold;
+    text-decoration: underline;
+    width: 100%;
+    margin-bottom: -5%;
+}
+
+.principalcardbutton2:hover {
+    color: rgb(0, 0, 0); 
+    font-weight: bold;
+    text-decoration: none;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.rectangle {
+    position: absolute;
+    margin-top: 16%;
+    left: 50%;
+    width: 80%;
+    height: 50%;
+    background-color: orange;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#img-container img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    object-position: center;
+}
+
+#controls {
+    position: absolute;
+    top: 10px; /* Ajuste a posição conforme necessário */
+    left: 300px; /* Ajuste a posição conforme necessário */
+}
+
+.custom-dropdown {
+    background-color: transparent; /* Remove a cor de fundo */
+    border: none; /* Remove a borda */
+    padding: 0; /* Remove o preenchimento */
+    margin: 0; /* Remove margens */
+    box-shadow: none; /* Remove qualquer sombra */
+}
+
+/* Remove a aparência padrão do botão quando clicado */
+.custom-dropdown:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Ajustar a imagem para que pareça o elemento principal */
+.custom-dropdown img {
+    display: block;
+}
+
+.menuprinci{
+
+color: white;
+text-align: center;
+text-decoration: none;
+
+}
