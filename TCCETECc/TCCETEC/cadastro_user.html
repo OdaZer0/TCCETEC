@@ -11,10 +11,9 @@
 </head>
 
 <body>
-    <?php include "menu.php" ?>
     <div class="container">
-        <form name="Usercadform" action="cadastrar.php" class="form" method="POST">
-            <h2 class="d-flex custom-font justify-content-center">Cadastro de Autônomo</h2>
+        <form name="Usercadform" action="Crtl_User.php" class="form" method="POST">
+            <h2 class="d-flex custom-font justify-content-center">Cadastro de Usuários</h2>
             <div class="row">
                 <div class="col-md-12">
                     <label class="form-label">Nome:</label>
@@ -55,43 +54,7 @@
             </div>
         </form>
 
-        <?php
-        $host = 'localhost'; 
-        $dbname = 'automatiza'; 
-        $user = 'root'; 
-        $password = ''; 
 
-        try {
-            $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            die("Erro na conexão: " . $e->getMessage());
-        }
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $nome = $_POST['nome'];
-            $email = $_POST['email'];
-            $senha = password_hash($_POST['senha'], PASSWORD_BCRYPT);
-            $cpf = $_POST['cpf'];
-            $cep = $_POST['cep'];
-
-            $sql = "INSERT INTO usuarios (Nome, Email, Senha, Cpf, Cep) VALUES (:nome, :email, :senha, :cpf, :cep)";
-            
-            try {
-                $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(':nome', $nome);
-                $stmt->bindParam(':email', $email);
-                $stmt->bindParam(':senha', $senha);
-                $stmt->bindParam(':cpf', $cpf);
-                $stmt->bindParam(':cep', $cep);
-                $stmt->execute();
-                echo "Usuário cadastrado com sucesso!";
-            } catch (PDOException $e) {
-                echo "Erro ao cadastrar usuário: " . $e->getMessage();
-            }
-        }
-        ?>
     </div>
-    <?php include "footer.php" ?>
 </body>
 </html>
