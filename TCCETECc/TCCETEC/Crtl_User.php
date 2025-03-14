@@ -31,8 +31,8 @@ if ($resultado === "Cadastrado com Sucesso!") {
     $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
     $_SESSION['ultima_atividade'] = time();
 
-    // Redireciona para a página de início
-    header("Location: Inicio.php");
+    // Redireciona para a Tela Inicial
+    header("Location: Tela_inicial.html");
     exit();
 } else {
     echo json_encode(["erro" => $resultado]);
