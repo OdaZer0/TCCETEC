@@ -11,6 +11,7 @@
 </head>
 
 <body>
+<?php include 'header.php'; ?>
     <div class="container">
         <form name="Usercadform" action="Crtl_User.php" class="form" method="POST">
             <h2 class="d-flex custom-font justify-content-center">Cadastro de Usuários</h2>
@@ -56,5 +57,7 @@
 
 
     </div>
+    <?php include 'footer.php'; ?>
 </body>
+
 </html>

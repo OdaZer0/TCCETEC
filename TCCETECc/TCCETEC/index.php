@@ -28,22 +28,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: orange;">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Meu Site</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="principal.php">Serviços</a></li>
-                    <li class="nav-item"><a class="nav-link" href="sobre_nos.php">Sobre Nós</a></li>
-                    <li class="nav-item"><a class="nav-link" href="vitrine_prod.php">Produtos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="informacoesconta.php">Perfil</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<?php include 'header.php'; ?>
 
     <div class="container text-center custom-font">
         <h1>ANTES DE IR PARA A TELA INICIAL</h1>
@@ -52,21 +37,22 @@
 
     <div class="container py-4">
         <div class="row justify-content-center">
-            <!-- Card Autônomo -->
+            
             <div class="col-md-6 col-lg-5 mb-4">
                 <div class="card cardshadow">
                     <div class="row g-0">
                         <div class="col-12 text-center" style="background-color: orange;">
-                            <img src="https://img.freepik.com/fotos-gratis/pessoas-de-cadeia-de-origami-vista-superior-com-globo_23-2148621071.jpg" class="cardimgsize" alt="Autônomo">
+                            <img src="https://findes.com.br/wp-content/uploads/2021/03/Foto-Beneficios_450x300px.png" class="cardimgsize" alt="Autônomo">
                         </div>
                         <div class="col-12 text-center p-3" style="background-color: rgb(255, 187, 0);">
                             <h3 style="color: white;">Autônomo</h3>
-                            <a href="cadastro_autonomo.html" class="btn btn-outline-light">Ir para o cadastro</a>
+                            <a href="cadastro_autonomo.php" class="btn btn-outline-light">Ir para o cadastro</a>
+                            <a href="LoginAutonomefront.php" class="btn btn-outline-light">Ir para o login</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Card Usuário -->
+            
             <div class="col-md-6 col-lg-5 mb-4">
                 <div class="card cardshadow">
                     <div class="row g-0">
@@ -75,7 +61,8 @@
                         </div>
                         <div class="col-12 text-center p-3" style="background-color: #18486b;">
                             <h3 style="color: white;">Usuário</h3>
-                            <a href="cadastro_user.html" class="btn btn-outline-light">Ir para o cadastro</a>
+                            <a href="cadastro_user.php" class="btn btn-outline-light">Ir para o cadastro</a>
+                            <a href="LoginUserFront.php" class="btn btn-outline-light">Ir para o login</a>
                         </div>
                     </div>
                 </div>
@@ -84,5 +71,6 @@
     </div>
 
     <?php include 'footer.php'; ?>
+
 </body>
 </html>

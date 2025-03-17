@@ -15,6 +15,7 @@
 </head>
 
 <body>
+<?php include 'header.php'; ?>
 
     <div class="container">
         <form name="Usercadform" action="Crtl_Autonomo.php" class="form" method="POST" enctype="multipart/form-data"> 
@@ -49,7 +50,7 @@
                     <label class="form-label">CEP:</label>
                     <input type="text" name="cep" class="form-control" maxlength="8" required>
                 </div>
-</div>
+            </div>
             <div class="row">
                 
                 <div class="col-md-12">
@@ -71,6 +72,9 @@
                 </div>
             </div>
         </form>
+        <div>
+        
+</div>  
 </body>
-
+<?php include 'footer.php'; ?>
 </html>
