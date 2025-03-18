@@ -3,6 +3,7 @@ USE Automatiza;
 
 CREATE TABLE Usuario (
     Id INT(3) PRIMARY KEY auto_increment,
+    CR int Unique,
     Nome VARCHAR(50),
     Email VARCHAR(60),
     Senha VARCHAR(250), -- Tamanho alto devido à criptografia
@@ -12,6 +13,7 @@ CREATE TABLE Usuario (
 
 CREATE TABLE Autonomo (
     Id INT(3) PRIMARY KEY auto_increment,
+    CR INT Unique,
     Nome VARCHAR(50),
     Email VARCHAR(60),
     Senha VARCHAR(250), -- Tamanho alto devido à criptografia
@@ -37,3 +39,9 @@ Select * From Usuario;
 Select * From Autonomo;
 Select* From Administrador;
 drop table Administrador;
+drop table Usuario;
+drop table Autonomo;
+ALTER TABLE Usuario 
+ADD COLUMN Avisos INT DEFAULT 0, 
+MODIFY COLUMN CR INT UNIQUE NOT NULL;
+
