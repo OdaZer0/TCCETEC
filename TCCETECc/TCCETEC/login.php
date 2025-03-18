@@ -6,8 +6,8 @@ include "Cls_User.php"; // Supondo que você tenha uma classe para gerenciar o u
 $pdo = Conexao::getConexao();
 
 // Receber os dados do formulário de login
-$username = filter_input(INPUT_POST, 'username');
-$password = filter_input(INPUT_POST, 'password');
+$username = filter_input(INPUT_POST, 'usuario');
+$password = filter_input(INPUT_POST, 'senha');
 
 // Tentar buscar o usuário na tabela 'Usuarios'
 $query = $pdo->prepare("SELECT Id, Email, Senha, 'usuario' AS tipo FROM Usuario WHERE Email = :Email LIMIT 1");
@@ -22,6 +22,12 @@ if (!$user) {
     $query->execute();
     $user = $query->fetch();
 }
+if(!$user){
+    $query = $pdo ->prepare("SELECT Id, Email, Senha, 'ADM' AS tipo FROM Administrador WHERE Email = :Email LIMIT 1");
+    $query -> bindParam(':Email', $username);
+    $query-> execute();
+    $user = $query ->fetch();
+}
 
 if ($user && password_verify($password, $user['Senha'])) {
     // Se a senha for válida, criamos a sessão
@@ -33,9 +39,13 @@ if ($user && password_verify($password, $user['Senha'])) {
     if ($user['tipo'] == 'autonomo') {
         // O usuário foi encontrado na tabela de 'Autonomo', então redireciona para a tela de autônomos
         header("Location: Tela_autonomo.html");
+    
+    }
+    elseif($user['tipo']=='ADM'){
+        header("Location: Tela_Adm.html");
     } else {
         // O usuário foi encontrado na tabela de 'Usuario', então redireciona para a tela de usuários
-        header("Location: Tela_inicio.html");
+        header("Location: Tela_Inicio.html");
     }
 
     exit();

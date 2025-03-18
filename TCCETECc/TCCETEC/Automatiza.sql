@@ -11,7 +11,7 @@ CREATE TABLE Usuario (
 );
 
 CREATE TABLE Autonomo (
-    Id INT(3) PRIMARY KEY,
+    Id INT(3) PRIMARY KEY auto_increment,
     Nome VARCHAR(50),
     Email VARCHAR(60),
     Senha VARCHAR(250), -- Tamanho alto devido à criptografia
@@ -22,7 +22,7 @@ CREATE TABLE Autonomo (
 );
 
 CREATE TABLE Administrador (
-    Id INT PRIMARY KEY,                -- 'INT' sem o tamanho (não é necessário)
+    Id INT PRIMARY KEY auto_increment,                -- 'INT' sem o tamanho (não é necessário)
     Nome VARCHAR(50),
     Email VARCHAR(60),
     Senha VARCHAR(250),                -- Tamanho alto devido à criptografia
@@ -34,3 +34,6 @@ CREATE TABLE Administrador (
 SHOW TABLES;
 desc Usuario;
 Select * From Usuario;
+Select * From Autonomo;
+Select* From Administrador;
+drop table Administrador;

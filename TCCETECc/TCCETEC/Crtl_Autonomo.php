@@ -34,7 +34,7 @@ if ($resultado === "Cadastrado com Sucesso!") {
     $_SESSION['ultima_atividade'] = time();
 
     // Redireciona para a página de início
-    header("Location: Inicio.php");
+    header("Location: Tela_autonomo.html");
     exit();
 } else {
     echo json_encode(["erro" => $resultado]);
