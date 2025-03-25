@@ -38,10 +38,5 @@ desc Usuario;
 Select * From Usuario;
 Select * From Autonomo;
 Select* From Administrador;
-drop table Administrador;
-drop table Usuario;
-drop table Autonomo;
-ALTER TABLE Usuario 
-ADD COLUMN Avisos INT DEFAULT 0, 
-MODIFY COLUMN CR INT UNIQUE NOT NULL;
+
 

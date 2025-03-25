@@ -30,6 +30,7 @@
 <body>
 <?php include 'header.php'; ?>
  <a href="Cadastro_Adm.html">cadastro adm fodaaaaaa</a>
+ <a href="CrtlADM_User.php">Controle de user fodaaaaa</a>
     <div class="container text-center custom-font">
         <h1>ANTES DE IR PARA A TELA INICIAL</h1>
         <p style="color: gray;">Gostaria de entrar como Usuário ou Autônomo</p>
