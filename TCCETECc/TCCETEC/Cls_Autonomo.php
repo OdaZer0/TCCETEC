@@ -1,7 +1,7 @@
 <?php
 include "conexao.php";
 class Gravar{
-    private $nome, $email, $senha, $cpf, $cep, $area_atuacao, $nvl_formacao;
+    private $nome, $email, $senha, $cpf, $cep, $area_atuacao, $nvl_formacao, $cr;
     public function setnome($nome){
         $this -> nome = $nome;
     }
@@ -43,21 +43,43 @@ class Gravar{
     public function getnvl_formacao(){
         return $this -> nvl_formacao;
     }
+    public function setcr($cr){
+        $this -> cr = $cr;
+    }
+    public function getcr(){
+        return $this -> cr;
+    }
+    
 }
 class GravarPr{
+    private function gerarCodigoRegistro($con) {
+        do {
+            $cr = str_pad(rand(0, 99999), 5, '0', STR_PAD_LEFT);
+            $sql = "SELECT COUNT(*) FROM Usuario WHERE cr = ?";
+            $stmt = $con->prepare($sql);
+            $stmt->bindValue(1, $cr);
+            $stmt->execute();
+            $existe = $stmt->fetchColumn();
+        } while ($existe > 0); // Garante que o CR seja único
+
+        return $cr;
+    }
     public function cadastrar(Gravar $a){
         $bd = new Conexao();
         $con = $bd ->getConexao();
-        $sql= "INSERT INTO Autonomo (Nome, Email, Senha, Cpf, Cep, AreaAtuacao, NivelFormacao)
-         VALUES(?,?,?,?,?,?,?)";
+        $cr = $this->gerarCodigoRegistro($con);
+        $a->setcr($cr);
+        $sql= "INSERT INTO Autonomo (cr, Nome, Email, Senha, Cpf, Cep, AreaAtuacao, NivelFormacao)
+         VALUES(?,?,?,?,?,?,?,?)";
         $stmt = $con -> prepare($sql);
-        $stmt -> bindValue(1, $a -> getnome());
-        $stmt -> bindValue(2, $a -> getemail());
-        $stmt -> bindValue(3, $a -> getsenha());
-        $stmt -> bindValue(4, $a -> getcpf());
-        $stmt -> bindValue(5, $a -> getcep());
-        $stmt -> bindValue(6, $a -> getarea_atuacao());
-        $stmt -> bindValue(7, $a -> getnvl_formacao());
+        $stmt -> bindValue(1, $a -> getcr());
+        $stmt -> bindValue(2, $a -> getnome());
+        $stmt -> bindValue(3, $a -> getemail());
+        $stmt -> bindValue(4, $a -> getsenha());
+        $stmt -> bindValue(5, $a -> getcpf());
+        $stmt -> bindValue(6, $a -> getcep());
+        $stmt -> bindValue(7, $a -> getarea_atuacao());
+        $stmt -> bindValue(8, $a -> getnvl_formacao());
 
         if ($stmt->execute()){
             return "Cadastrado com Sucesso!";

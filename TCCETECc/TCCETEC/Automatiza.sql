@@ -8,7 +8,8 @@ CREATE TABLE Usuario (
     Email VARCHAR(60),
     Senha VARCHAR(250), -- Tamanho alto devido à criptografia
     Cpf BIGINT(11) UNIQUE, -- Somente números
-    Cep INT(8) -- Somente números
+    Cep INT(8), -- Somente números
+    Avisos Int(3) default 0
 );
 
 CREATE TABLE Autonomo (
@@ -20,7 +21,8 @@ CREATE TABLE Autonomo (
     Cpf BIGINT(11) UNIQUE, -- Somente números
     Cep INT(8), -- Somente números
     AreaAtuacao VARCHAR(20),
-    NivelFormacao VARCHAR(20)
+    NivelFormacao VARCHAR(20),
+    Avisos Int(3) default 0
 );
 
 CREATE TABLE Administrador (
@@ -38,5 +40,5 @@ desc Usuario;
 Select * From Usuario;
 Select * From Autonomo;
 Select* From Administrador;
-
+drop table Autonomo;
 

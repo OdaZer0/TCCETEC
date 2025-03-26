@@ -20,7 +20,7 @@ try {
     $con = $pdo->getConexao();
 
     // Buscando os usuários no banco
-    $sql = "SELECT cr, nome, email FROM Usuario";
+    $sql = "SELECT cr, nome, email, avisos FROM Usuario";
     $stmt = $con->prepare($sql);
     $stmt->execute();
     $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
