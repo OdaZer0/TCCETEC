@@ -28,7 +28,7 @@ try {
     $con = $pdo->getConexao();
 
     // Verificando se o usuário existe antes de deletar
-    $sqlCheck = "SELECT * FROM Usuario WHERE cr = ?";
+    $sqlCheck = "SELECT * FROM Autonomo WHERE cr = ?";
     $stmtCheck = $con->prepare($sqlCheck);
     $stmtCheck->bindValue(1, $cr);
     $stmtCheck->execute();
