@@ -1,11 +1,78 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle de Autonomo</title>
+    <title>Controle de Usuários</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="estilos.css"> 
+    <link rel="stylesheet" href="estilos2.css">
+    <link rel="stylesheet" href="estilos3.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <style>
+
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+h2 {
+    color: blue;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: lightblue;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+    background-color: lightblue;
+    color: white;
+    font-weight: bold;
+}
+
+td, th {
+    border: 1px solid blue;
+    padding: 10px;
+    text-align: center;
+}
+
+tbody tr:nth-child(even) {
+    background-color: lightblue;
+}
+
+tbody tr:hover {
+    background-color: lightblue;
+    color: white;
+}
+
+button {
+    background-color: blue;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: blue;
+}
+
+
+    </style>
 </head>
+<body>
+<?php include 'header.php'; ?>
 <body>
     <h2>Lista de Autonomos</h2>
     <button id="Btn_Carregar">Carregar Dados</button>
@@ -100,5 +167,6 @@
 });
     
     </script>
+    <?php include 'footer.php'; ?>
 </body>
 </html>
