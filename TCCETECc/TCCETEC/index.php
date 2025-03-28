@@ -28,8 +28,8 @@
 </head>
 
 <body>
+    <a href="Cadastro_Adm.html">cadastro</a>
 <?php include 'header.php'; ?>
- <a href="Tela_Adm.html">cadastro adm fodaaaaaa</a>
     <div class="container text-center custom-font">
         <h1>ANTES DE IR PARA A TELA INICIAL</h1>
         <p style="color: gray;">Gostaria de entrar como Usuário ou Autônomo</p>

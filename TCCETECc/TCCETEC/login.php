@@ -42,7 +42,7 @@ if ($user && password_verify($password, $user['Senha'])) {
     
     }
     elseif($user['tipo']=='ADM'){
-        header("Location: Tela_Adm.html");
+        header("Location: Tela_Adm.php");
     } else {
         // O usuário foi encontrado na tabela de 'Usuario', então redireciona para a tela de usuários
         header("Location: Tela_Inicio.html");

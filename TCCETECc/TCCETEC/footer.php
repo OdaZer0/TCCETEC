@@ -1,4 +1,12 @@
 <body>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br></br>  
 <div style="position: relative; z-index: 1;">
     <div style="padding-top: 5% ">
         <nav class="navbar navbar-light sticky-bottom" style="background-color: white; color: black;">
@@ -61,7 +69,7 @@
                         
                         <div class="footermedias">
                         <button type="button" class="btn btn-link">
-                          <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/instagram-white-icon.png" alt="Instagram" width="30" height="30">
+                          
                         </button>
 
                         <button type="button" class="btn btn-link">
