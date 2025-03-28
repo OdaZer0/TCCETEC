@@ -51,7 +51,7 @@
             <img src="Imagens/automatizac.png" alt="AutoMatiza">
         </div>
         <nav class="nav">
-            <a href="#">MENU PRINCIPAL</a> |
+            <a href="telahome.php">MENU PRINCIPAL</a> |
             <a href="#">AUTÔNOMOS</a> |
             <a href="#">FAVORITOS</a>
         </nav>

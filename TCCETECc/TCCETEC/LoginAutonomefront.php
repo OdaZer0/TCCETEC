@@ -7,10 +7,25 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="estilos.css">
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Tammudu&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="estilos3.css">
+    <link rel="stylesheet" href="estilos.css">
     <title>Login</title>
+
+    <style>
+        /* Estilização do container com a imagem de fundo */
+        .container {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('imagens/Fundo de Autônomo (Sem passar o mouse).png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color:; /* Garante visibilidade do texto */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Efeito de sombra */
+        }
+    </style>
 </head>
 <body>
+
 <?php include 'header.php'; ?>
 
     <div class="container">
@@ -42,6 +57,8 @@
 
         </form>
     </div>
-    <?php include 'footer.php'; ?>
+
+<?php include 'footer.php'; ?>
+
 </body>
 </html>
