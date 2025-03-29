@@ -28,7 +28,8 @@
 </head>
 
 <body>
-    <a href="Cadastro_Adm.html">cadastro</a>
+
+<a href="chat.php">Chatzin</a>
 <?php include 'header.php'; ?>
     <div class="container text-center custom-font">
         <h1>ANTES DE IR PARA A TELA INICIAL</h1>

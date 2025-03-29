@@ -35,6 +35,17 @@ CREATE TABLE Administrador (
     Cargo VARCHAR(20)
 );
 
+CREATE DATABASE chat_app;
+
+USE chat_app;
+
+CREATE TABLE mensagens (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario VARCHAR(255) NOT NULL,
+    mensagem TEXT NOT NULL,
+    data_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 SHOW TABLES;
 desc Usuario;
 Select * From Usuario;
