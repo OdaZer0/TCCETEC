@@ -15,6 +15,9 @@
 </head>
 
 <body>
+    ,<style>
+        
+    </style>
 <?php include 'header.php'; ?>
 
     <div class="container">
@@ -74,7 +77,8 @@
         </form>
         <div>
         
-</div>  
+</div> 
+<?php include 'footer.php'; ?> 
 </body>
-<?php include 'footer.php'; ?>
+
 </html>
