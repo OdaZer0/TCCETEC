@@ -2,11 +2,11 @@
 include 'conexao2.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Receber o nome do usuário e a mensagem
+    
     $usuario = $_POST['usuario'];
     $mensagem = $_POST['mensagem'];
 
-    // Inserir a mensagem no banco de dados
+    
     $sql = "INSERT INTO mensagens (usuario, mensagem) VALUES (:usuario, :mensagem)";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':usuario', $usuario);
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h3>Chat em Tempo Real</h3>
     <div id="mensagens">
         <?php
-        // Exibir as mensagens
+        
         $sql = "SELECT * FROM mensagens ORDER BY data_envio ASC";
         $stmt = $pdo->query($sql);
         while ($mensagem = $stmt->fetch(PDO::FETCH_ASSOC)) {
