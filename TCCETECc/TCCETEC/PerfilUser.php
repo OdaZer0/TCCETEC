@@ -22,7 +22,29 @@ if (!$user) {
     header("Location: login.php");
     exit();
 }
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto'])) {
+    $foto = $_FILES['foto'];
+    if($foto['error'] == UPLOAD_ERR_OK){
+        $extensao = pathinfo($foto['name'], PATHINFO_EXTENSION);
+        $tiposPermitidos = ['jpg', 'jpeg', 'png', 'gif'];
+        if (in_array(strtolower($extensao), $tiposPermitidos)){
+            $imagemConteudo = file_get_contents($foto['tmp_name']);
+            
+            $query = $pdo->prepare("UPDATE Usuario SET Foto = :foto WHERE Id = :Id");
+            $query->bindParam(':foto', $imagemConteudo, PDO::PARAM_LOB);
+            $query->bindParam(':Id', $_SESSION['usuario_id']); // Corrigido para :Id
+            $query->execute();
+            header("Location: PerfilUser.php");
+            exit();
+        }
+        else{
+            echo "Tipo de arquivo invalido!!!! Apenas imagens JPG, JPEG, PNG e GIF são permitidos";
+        }
+    }
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -154,12 +176,13 @@ if (!$user) {
 <div class="container mt-5">
   
     <div class="row justify-content-center mb-4">
-        <div class="col-md-3 text-center">
-        
-            <img src="imagens/Fundo de Usuário (Sem passar o Mouse).png" alt="Foto do Usuário" class="img-fluid rounded-circle profile-pic">
-        </div>
-        <div class="col-md-9 d-flex align-items-center justify-content-center">
-            <h2 class="text-center custom-font mb-0">Perfil do Usuário</h2>
+    <div class="col-md-3 text-center">
+            <!-- Exibe a foto do usuário -->
+            <?php if ($user['Foto']): ?>
+                <img src="data:image/jpeg;base64,<?php echo base64_encode($user['Foto']); ?>" alt="Foto do Usuário" class="img-fluid rounded-circle profile-pic">
+            <?php else: ?>
+                <img src="imagens/Fundo de Autônomo (Sem passar o mouse).png" alt="Foto do Usuário" class="img-fluid rounded-circle profile-pic">
+            <?php endif; ?>
         </div>
     </div>
 
@@ -186,37 +209,19 @@ if (!$user) {
             </tbody>
         </table>
     </div>
-
-    <div class="card mb-4">
-        <div class="card-header bg-primary text-white">
-            <h5>Histórico de Contratação</h5>
+    <form action="" method="POST" enctype="multipart/form-data" class="mt-4">
+        <div class="form-group">
+            <label for="foto">Alterar Foto:</label>
+            <input type="file" name="foto" id="foto" class="form-control" required>
         </div>
-        <div class="card-body">
-            <ul class="list-group">
-                <li class="list-group-item">Contratação 1 - <strong>Data:</strong> 15/02/2025</li>
-                <li class="list-group-item">Contratação 2 - <strong>Data:</strong> 01/03/2025</li>
-            </ul>
-        </div>
-    </div>
+        <button type="submit" class="btn btn-primary mt-3">Enviar Foto</button>
+    </form>
 
-
-    <div class="card mb-4">
-        <div class="card-header bg-success text-white">
-            <h5>Avaliações</h5>
-        </div>
-        <div class="card-body">
-            <ul class="list-group">
-                <li class="list-group-item">Avaliação 1 - <strong>Nota:</strong> 4.5/5</li>
-                <li class="list-group-item">Avaliação 2 - <strong>Nota:</strong> 4.8/5</li>
-            </ul>
-        </div>
-    </div>
-
-
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center mt-4">
         <a href="EditarUser.php" class="btn btn-primary btn-lg rounded-pill">Editar Perfil</a>
     </div>
-</div>
+
+   
 
 <?php include 'footer.php'; ?>
 

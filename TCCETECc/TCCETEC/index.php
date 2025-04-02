@@ -30,6 +30,7 @@
 <body>
 
 <a href="chat.php"></a>
+<a href="Cadastro_Adm.html">cadastro</a>
 <?php include 'header.php'; ?>
     <div class="container text-center custom-font">
         <h1>ANTES DE IR PARA A TELA INICIAL</h1>

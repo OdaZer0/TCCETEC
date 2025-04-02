@@ -10,7 +10,7 @@ try {
     // Lendo os dados JSON recebidos
     $dadosRecebidos = json_decode(file_get_contents("php://input"), true);
 
-    // Validação do token (simples, ideal seria usar autenticação real)
+    // Validação do token
     if (!isset($dadosRecebidos['token']) || $dadosRecebidos['token'] !== "meu_token_secreto") {
         echo json_encode(["erro" => "Acesso negado!"]);
         exit();
@@ -19,14 +19,27 @@ try {
     $pdo = new Conexao();
     $con = $pdo->getConexao();
 
-    // Buscando os usuários no banco
+    // Variável para o filtro de CR (caso seja fornecido)
+    $cr = isset($dadosRecebidos['cr']) ? $dadosRecebidos['cr'] : '';
+
+    // Construção da consulta SQL
     $sql = "SELECT cr, nome, email, avisos FROM Autonomo";
+    
+    if ($cr !== '') {
+        $sql .= " WHERE cr LIKE :cr";
+    }
+
     $stmt = $con->prepare($sql);
+
+    if ($cr !== '') {
+        $stmt->bindValue(':cr', "%$cr%");  // Filtro de CR
+    }
+
     $stmt->execute();
     $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     echo json_encode($usuarios);
 } catch (Exception $e) {
-    echo json_encode(["erro" => "Erro ao buscar usuários: " . $e->getMessage()]);
+    echo json_encode(["erro" => "Erro ao buscar autônomos: " . $e->getMessage()]);
 }
 ?>

@@ -74,7 +74,14 @@ button:hover {
 <body>
 <?php include 'header.php'; ?>
     <h2>Lista de Usuários</h2>
-    <button id="Btn_Carregar">Carregar Dados</button>
+    <!-- Adicionando os botões de busca -->
+    <h3>Pesquisar por CR</h3>
+    <input type="text" id="searchCR" placeholder="Digite o CR para pesquisa" class="form-control" style="width: 20%; margin: 10px auto;">
+
+    <!-- Botões para carregar os dados -->
+        <button id="Btn_BuscarTodos" class="btn btn-primary">Buscar Todos</button>
+    <button id="Btn_BuscarPorCR" class="btn btn-primary">Buscar por CR</button>
+
     <table border="1">
         <thead>
             <tr>
@@ -90,83 +97,101 @@ button:hover {
 
     <script>
         $(document).ready(function(){
-            // Carregar dados
-            $("#Btn_Carregar").click(function(){
-                $.ajax({
-                    url: "BuscarUser.php",
-                    method: "POST",
-                    data: JSON.stringify({ token: "meu_token_secreto" }), 
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function(resposta){
-                        let tabela = "";
-                        resposta.forEach(function(usuario){
-                            tabela += "<tr>";
-                            tabela += "<td>" + usuario.cr + "</td>";
-                            tabela += "<td>" + usuario.nome + "</td>";
-                            tabela += "<td>" + usuario.email + "</td>";
-                            tabela += "<td>" + usuario.avisos + "</td>";
-                            tabela += "<td><button class='btnExcluir' data-cr='" + usuario.cr + "'>Excluir</button> </br> <button class = 'btn_PorAviso' data-cr = '" + usuario.cr + "'> Adicionar Aviso</button></td>";
-                            tabela += "</tr>";
-                        });
-                        $("#Tb_dados").html(tabela);
-                    }
+    // Botão para buscar todos os usuários
+    $("#Btn_BuscarTodos").click(function(){
+        // Enviar requisição para buscar todos os usuários
+        $.ajax({
+            url: "BuscarUser.php",
+            method: "POST",
+            data: JSON.stringify({ 
+                token: "meu_token_secreto" 
+            }),
+            contentType: "application/json",
+            dataType: "json",
+            success: function(resposta){
+                let tabela = "";
+                resposta.forEach(function(usuario){
+                    tabela += "<tr>";
+                    tabela += "<td>" + usuario.cr + "</td>";
+                    tabela += "<td>" + usuario.nome + "</td>";
+                    tabela += "<td>" + usuario.email + "</td>";
+                    tabela += "<td>" + usuario.avisos + "</td>";
+                    tabela += "<td><button class='btnExcluir' data-cr='" + usuario.cr + "'>Excluir</button> </br> <button class = 'btn_PorAviso' data-cr = '" + usuario.cr + "'> Adicionar Aviso</button></td>";
+                    tabela += "</tr>";
                 });
-            });
-
-            // Delegação de evento para os botões "Excluir"
-            $(document).on("click", ".btnExcluir", function(){
-                let cr = $(this).data("cr"); // Obtém o CR do botão clicado
-                
-                if(confirm("Tem certeza que deseja excluir este usuário?")) {
-                    $.ajax({
-                        url: "ExcluirUser.php",
-                        method: "POST",
-                        data: JSON.stringify({ cr: cr, token: "meu_token_secreto" }),
-                        contentType: "application/json",
-                        dataType: "json",
-                        success: function(resposta){
-                            alert(resposta.mensagem);
-                            $("#Btn_Carregar").click(); // Recarrega a tabela após exclusão
-                        }
-                    });
-                }
-            });
+                $("#Tb_dados").html(tabela);
+            }
         });
+    });
 
-        $(document).on("click",".btn_PorAviso", function(){
-            let cr = $(this).data("cr");
+    // Botão para buscar por CR
+    $("#Btn_BuscarPorCR").click(function(){
+        var crPesquisa = $("#searchCR").val(); // Obtém o valor do campo de pesquisa
+        
+        if (crPesquisa.trim() === "") {
+            alert("Por favor, digite um CR para buscar.");
+            return; // Não continua com a requisição se o campo de CR estiver vazio
+        }
+
+        $.ajax({
+            url: "BuscarUser.php",
+            method: "POST",
+            data: JSON.stringify({ 
+                token: "meu_token_secreto", 
+                cr: crPesquisa  // Passa o CR para filtrar a pesquisa
+            }),
+            contentType: "application/json",
+            dataType: "json",
+            success: function(resposta){
+                let tabela = "";
+                resposta.forEach(function(usuario){
+                    tabela += "<tr>";
+                    tabela += "<td>" + usuario.cr + "</td>";
+                    tabela += "<td>" + usuario.nome + "</td>";
+                    tabela += "<td>" + usuario.email + "</td>";
+                    tabela += "<td>" + usuario.avisos + "</td>";
+                    tabela += "<td><button class='btnExcluir' data-cr='" + usuario.cr + "'>Excluir</button> </br> <button class = 'btn_PorAviso' data-cr = '" + usuario.cr + "'> Adicionar Aviso</button></td>";
+                    tabela += "</tr>";
+                });
+                $("#Tb_dados").html(tabela);
+            }
+        });
+    });
+
+    // Delegação de evento para os botões "Excluir" e "Adicionar Aviso"
+    $(document).on("click", ".btnExcluir", function(){
+        let cr = $(this).data("cr");
+        if(confirm("Tem certeza que deseja excluir este usuário?")) {
             $.ajax({
-                url: "PorAvisoUser.php",
+                url: "ExcluirUser.php",
                 method: "POST",
-                data: JSON.stringify({cr: cr, token: "meu_token_secreto"}),
+                data: JSON.stringify({ cr: cr, token: "meu_token_secreto" }),
+                contentType: "application/json",
                 dataType: "json",
                 success: function(resposta){
                     alert(resposta.mensagem);
-                    // Carregar os dados novamente para atualizar a tabela
-                    $.ajax({
-                        url: "BuscarUser.php",
-                        method: "POST",
-                        data: JSON.stringify({ token: "meu_token_secreto" }),
-                        contentType: "application/json",
-                        dataType: "json",
-                        success: function(resposta){
-                            let tabela = "";
-                            resposta.forEach(function(usuario){
-                                tabela += "<tr>";
-                                tabela += "<td>" + usuario.cr + "</td>";
-                                tabela += "<td>" + usuario.nome + "</td>";
-                                tabela += "<td>" + usuario.email + "</td>";
-                                tabela += "<td>" + usuario.avisos + "</td>";
-                                tabela += "<td><button class='btnExcluir' data-cr='" + usuario.cr + "'>Excluir</button> </br> <button class = 'btn_PorAviso' data-cr = '" + usuario.cr + "'> Adicionar Aviso</button></td>";
-                                tabela += "</tr>";
-                            });
-                            $("#Tb_dados").html(tabela); // Atualiza a tabela com os dados mais recentes
-                        }
-                    });
+                    $("#Btn_BuscarTodos").click(); // Recarrega a tabela após exclusão
                 }
             });
+        }
+    });
+
+    $(document).on("click",".btn_PorAviso", function(){
+        let cr = $(this).data("cr");
+        $.ajax({
+            url: "PorAvisoUser.php",
+            method: "POST",
+            data: JSON.stringify({cr: cr, token: "meu_token_secreto"}),
+            dataType: "json",
+            success: function(resposta){
+                alert(resposta.mensagem);
+                // Recarregar dados após adicionar aviso
+                $("#Btn_BuscarTodos").click();
+            }
         });
+    });
+});
+
     </script>
     <?php include 'footer.php'; ?>
 </body>
