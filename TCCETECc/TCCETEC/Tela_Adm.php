@@ -1,4 +1,28 @@
+<?php
+session_start();
+include 'conexao.php';
 
+// Verifica se o usuário está logado
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Conectar ao banco de dados
+$pdo = Conexao::getConexao();
+
+// Buscar informações do usuário logado
+$query = $pdo->prepare("SELECT * FROM Administrador WHERE Id = :id");
+$query->bindParam(':id', $_SESSION['usuario_id']);
+$query->execute();
+$user = $query->fetch();
+
+// Se o usuário não for encontrado, redireciona
+if (!$user) {
+    header("Location: login.php");
+    exit();
+}
+?>
     
     <!DOCTYPE html>
     <html lang="pt-br">
@@ -83,10 +107,24 @@
     <?php include 'header.php'; ?>
         <div class="container">
             <div class="profile-info">
-                <h1>SEU PERFIL</h1>
-                <p><strong>NOME:</strong> </p>
-                <p><strong>CPF:</strong> </p>
-                <p><strong>EMAIL:</strong> </p>
+                <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label">NOME: </label>
+                <input type="text" class="form-control" value="<?php echo htmlspecialchars($user['Nome']); ?>" disabled>
+            </div>
+            <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label">CPF: </label>
+                <input type="text" class="form-control" value="<?php echo htmlspecialchars($user['Cpf']); ?>" disabled>
+            </div>
+            <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label">EMAIL: </label>
+                <input type="text" class="form-control" value="<?php echo htmlspecialchars($user['Email']); ?>" disabled>
+            </div>
+        </div>
+        </div>
+        </div>
             </div>
             <div class="profile-image">
                 <img src="" alt="Foto do usuário">
