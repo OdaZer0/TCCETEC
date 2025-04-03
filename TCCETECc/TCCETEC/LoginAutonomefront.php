@@ -11,17 +11,8 @@
     <title>Login</title>
 
     <style>
-        /* Estilização do container com a imagem de fundo */
-        .container {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('imagens/Fundo de Autônomo (Sem passar o mouse).png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            color:; /* Garante visibilidade do texto */
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Efeito de sombra */
-        }
+       
+     
     </style>
 </head>
 <body>
