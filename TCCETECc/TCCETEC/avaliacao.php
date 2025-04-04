@@ -40,7 +40,7 @@
 
 <?php include 'header.php'; ?>
     <h1>Avaliação</h1>
-    <p>O que está achando do nosso serviço?</p>
+    <p>O que está achando do serviço do autonômo?</p>
     <div class="stars">
         <span class="star" data-value="1">★</span>
         <span class="star" data-value="2">★</span>

@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 
-// Definição de variáveis
+
 $autonomos = [
     [
         "nome" => "Isabela Nogueira",
@@ -41,13 +41,13 @@ $autonomos = [
     <input type="text" id="search" placeholder="Procurar...">
 
     <div class="lista-autonomos">
-        <?php foreach ($ as $) : ?>
+        <?php foreach ($autonomo as $autonomo) : ?>
             <div class="card">
-                <img src=""
+                <img src="foto">
                 <div class="info">
-                    <h3><?= strtoupper($['nome']) ?></h3>
-                    <p><?= $['profissao'] ?></p>
-                    <small><?= $['disponibilidade'] ?></small>
+                    <h3><?= strtoupper($nome['nome']) ?></h3>
+                    <p><?= $prof['profissao'] ?></p>
+                    <small><?= $dis['disponibilidade'] ?></small>
                 </div>
                 <button class="favorito" style="color: <?= $autonomo['favorito'] ? 'red' : 'gray' ?>">&#x2764;</button>
             </div>
