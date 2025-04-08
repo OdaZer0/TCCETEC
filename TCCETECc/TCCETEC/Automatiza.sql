@@ -26,6 +26,18 @@ CREATE TABLE Autonomo (
     Avisos INT(3) DEFAULT 0,
     Foto BLOB -- Armazena a foto como dados binários
 );
+CREATE TABLE ServicoAutonomo (
+    Id INT AUTO_INCREMENT PRIMARY KEY,  -- Chave primária da própria tabela
+    Titulo VARCHAR(100),
+    Descricao TEXT,
+    Tipo VARCHAR(50),
+    Valor DECIMAL(10,2),
+    Domicilio BOOLEAN,
+    IdAutonomo INT,                     -- Este sim é uma Foreign Key
+    FOREIGN KEY (IdAutonomo) REFERENCES tb_autonomo(id)
+);
+
+
 
 CREATE TABLE Administrador (
     Id INT PRIMARY KEY auto_increment, -- 'INT' sem o tamanho (não é necessário)
@@ -54,7 +66,7 @@ desc Usuario;
 Select * From Usuario;
 Select * From Autonomo;
 Select* From Administrador;
-drop table Administrador;
+drop table ServicoAutonomo;
 
 INSERT INTO Autonomo (CR, Nome, Email, Senha, Cpf, Cep, AreaAtuacao, NivelFormacao, Avisos)
 VALUES
