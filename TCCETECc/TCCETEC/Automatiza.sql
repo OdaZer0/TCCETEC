@@ -37,6 +37,18 @@ CREATE TABLE ServicoAutonomo (
     FOREIGN KEY (IdAutonomo) REFERENCES tb_autonomo(id)
 );
 
+CREATE TABLE SolicitacoesServico (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    IdServico INT NOT NULL,
+    IdUsuario INT NOT NULL,
+    IdAutonomo INT NOT NULL,  -- Agora é referente ao Autônomo da tabela ServicoAutonomo
+    DataSolicitada DATE NOT NULL,
+    Status ENUM('pendente', 'aceito', 'recusado') DEFAULT 'pendente',
+    FOREIGN KEY (IdServico) REFERENCES ServicoAutonomo(Id),
+    FOREIGN KEY (IdUsuario) REFERENCES Usuario(Id),
+    FOREIGN KEY (IdAutonomo) REFERENCES ServicoAutonomo(IdAutonomo)  -- Refere-se à tabela ServicoAutonomo
+);
+
 
 
 CREATE TABLE Administrador (
@@ -65,8 +77,8 @@ SHOW TABLES;
 desc Usuario;
 Select * From Usuario;
 Select * From Autonomo;
-Select* From Administrador;
-drop table ServicoAutonomo;
+Select* From SolicitacoesServico;
+drop table SolicitacoesServico;
 
 INSERT INTO Autonomo (CR, Nome, Email, Senha, Cpf, Cep, AreaAtuacao, NivelFormacao, Avisos)
 VALUES
