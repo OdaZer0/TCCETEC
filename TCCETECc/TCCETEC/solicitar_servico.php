@@ -56,7 +56,7 @@ if ($idServico && $dataSolicitada) {
         <?= htmlspecialchars($mensagem) ?>
     </div>
     <div class="text-center">
-        <a href="index.php" class="btn btn-primary">Voltar à Página Inicial</a>
+        <a href="Tela_Inicio.html" class="btn btn-primary">Voltar à Página Inicial</a>
     </div>
 </div>
 

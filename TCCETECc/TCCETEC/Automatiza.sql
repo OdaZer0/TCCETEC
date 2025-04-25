@@ -79,17 +79,32 @@ Select * From Usuario;
 Select * From Autonomo;
 Select* From SolicitacoesServico;
 drop table SolicitacoesServico;
+Delete from Autonomo Where CR > 1;
 
-INSERT INTO Autonomo (CR, Nome, Email, Senha, Cpf, Cep, AreaAtuacao, NivelFormacao, Avisos)
-VALUES
-(123456, 'João Silva', 'joao.silva@gmail.com', 'senha123', 12345678901, 12345678, 'TI', 'Superior', 0),
-(234567, 'Maria Oliveira', 'maria.oliveira@yahoo.com', 'senha123', 98765432100, 23456789, 'Saúde', 'Médio', 1),
-(345678, 'Carlos Souza', 'carlos.souza@hotmail.com', 'senha123', 11223344556, 34567890, 'Educação', 'Superior', 0),
-(456789, 'Ana Costa', 'ana.costa@gmail.com', 'senha123', 99887766554, 45678901, 'Gestão', 'Médio', 2),
-(567890, 'Paulo Pereira', 'paulo.pereira@outlook.com', 'senha123', 88776655443, 56789012, 'TI', 'Superior', 0),
-(678901, 'Fernanda Lima', 'fernanda.lima@bol.com.br', 'senha123', 99887766543, 67890123, 'Saúde', 'Superior', 0),
-(789012, 'Rafael Alves', 'rafael.alves@globo.com', 'senha123', 55667788999, 78901234, 'Logística', 'Médio', 1),
-(890123, 'Bruna Martins', 'bruna.martins@terra.com.br', 'senha123', 66778899001, 89012345, 'Marketing', 'Superior', 0),
-(901234, 'Lucas Santos', 'lucas.santos@gmail.com', 'senha123', 22334455667, 90123456, 'Comércio', 'Médio', 2),
-(101234, 'Juliana Rocha', 'juliana.rocha@uol.com.br', 'senha123', 33445566778, 10234567, 'Educação', 'Superior', 0);
+INSERT INTO Usuario (CR, Nome, Email, Senha, Cpf, Cep, Avisos, Foto) VALUES
+(54321, 'João Silva', 'joao.silva@email.com', 'senhaCriptografada1', 12345678901, 12345678, 0, NULL),
+(12345, 'Maria Oliveira', 'maria.oliveira@email.com', 'senhaCriptografada2', 98765432100, 23456789, 1, NULL),
+(67890, 'Carlos Pereira', 'carlos.pereira@email.com', 'senhaCriptografada3', 11122233344, 34567890, 0, NULL),
+(13579, 'Ana Souza', 'ana.souza@email.com', 'senhaCriptografada4', 55566677788, 45678901, 2, NULL),
+(24680, 'Fernanda Lima', 'fernanda.lima@email.com', 'senhaCriptografada5', 99988877766, 56789012, 0, NULL),
+(11223, 'Rafael Costa', 'rafael.costa@email.com', 'senhaCriptografada6', 44455566677, 67890123, 1, NULL),
+(33445, 'Juliana Rocha', 'juliana.rocha@email.com', 'senhaCriptografada7', 11133355577, 78901234, 0, NULL),
+(55667, 'Lucas Martins', 'lucas.martins@email.com', 'senhaCriptografada8', 22244466688, 89012345, 3, NULL),
+(77889, 'Patrícia Melo', 'patricia.melo@email.com', 'senhaCriptografada9', 33355577799, 90123456, 0, NULL),
+(99001, 'Bruno Alves', 'bruno.alves@email.com', 'senhaCriptografada10', 44466688800, 11234567, 0, NULL);
+INSERT INTO Autonomo (CR, Nome, Email, Senha, Cpf, Cep, AreaAtuacao, NivelFormacao, Avisos, Foto) VALUES
+(51234, 'Aline Castro', 'aline.castro@email.com', 'senhaCriptografada1', 10101010101, 12345678, 'Enfermagem', 'Superior', 0, NULL),
+(67891, 'Marcelo Vieira', 'marcelo.vieira@email.com', 'senhaCriptografada2', 20202020202, 23456789, 'Educação Física', 'Técnico', 1, NULL),
+(34985, 'Renata Borges', 'renata.borges@email.com', 'senhaCriptografada3', 30303030303, 34567890, 'Estética', 'Superior', 0, NULL),
+(90543, 'Diego Almeida', 'diego.almeida@email.com', 'senhaCriptografada4', 40404040404, 45678901, 'Massoterapia', 'Técnico', 2, NULL),
+(22019, 'Larissa Ramos', 'larissa.ramos@email.com', 'senhaCriptografada5', 50505050505, 56789012, 'Nutrição', 'Superior', 0, NULL),
+(74125, 'Felipe Duarte', 'felipe.duarte@email.com', 'senhaCriptografada6', 60606060606, 67890123, 'Psicologia', 'Superior', 0, NULL),
+(38912, 'Tatiane Lopes', 'tatiane.lopes@email.com', 'senhaCriptografada7', 70707070707, 78901234, 'Fisioterapia', 'Médio', 1, NULL),
+(85691, 'Eduardo Lima', 'eduardo.lima@email.com', 'senhaCriptografada8', 80808080808, 89012345, 'Podologia', 'Técnico', 0, NULL),
+(19873, 'Camila Ferreira', 'camila.ferreira@email.com', 'senhaCriptografada9', 90909090909, 90123456, 'Estética', 'Superior', 3, NULL),
+(67048, 'Vinícius Mendes', 'vinicius.mendes@email.com', 'senhaCriptografada10', 11223344556, 11234567, 'Terapia Ocupacional', 'Superior', 0, NULL);
+INSERT INTO Administrador (Nome, Email, Senha, Cpf, Cep, Cargo, Foto) VALUES
+('Administrador Master', 'ADM1@gmail', '123', 12345678900, 12345678, 'Coordenador', NULL);
+
+
 

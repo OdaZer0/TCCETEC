@@ -9,11 +9,11 @@ if (!isset($_SESSION['usuario_id'])) {
 
 $pdo = Conexao::getConexao();
 
-// Buscar os dados do usuário
-$query->bindParam(':foto', $imagemConteudo, PDO::PARAM_LOB);
+$query = $pdo->prepare("SELECT * FROM Autonomo WHERE Id = :Id");
 $query->bindParam(':Id', $_SESSION['usuario_id']);  // Corrigido: agora usa :Id com 'I' maiúsculo
 $query->execute();
 $user = $query->fetch();
+
 
 if (!$user) {
     header("Location: login.php");

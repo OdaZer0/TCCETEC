@@ -51,7 +51,7 @@ class GravarPr{
         $stmt->bindValue(2, $a->getemail());
         $stmt->bindValue(3, $a->getsenha());
         $stmt->bindValue(4, $a->getcpf());
-        $stmt->bindValue(5, $a->getcep());w
+        $stmt->bindValue(5, $a->getcep());
         $stmt->bindValue(6, $a->getcargo());
 
         if ($stmt->execute()){
