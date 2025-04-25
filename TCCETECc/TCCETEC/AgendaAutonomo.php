@@ -11,7 +11,6 @@ $autonomoId = $_SESSION['usuario_id'];
 
 $pdo = Conexao::getConexao();
 
-// Agora a consulta irá funcionar corretamente com a nova chave de relacionamento
 $stmt = $pdo->prepare("
     SELECT ss.*, sa.Titulo, sa.Tipo, u.Nome AS NomeUsuario, u.CR
     FROM SolicitacoesServico ss
@@ -26,26 +25,55 @@ $servicos = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>Agenda de Compromissos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f0f2f5;
+        }
+        .card-compromisso {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+            background: #ffffff;
+        }
+        .card-compromisso:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+        }
+    </style>
 </head>
 <body>
-    <h2>Meus Compromissos</h2>
+
+<div class="container my-5">
+    <h2 class="text-center fw-bold mb-4">Meus Compromissos</h2>
 
     <?php if (empty($servicos)): ?>
-        <p>Você ainda não aceitou nenhum serviço.</p>
+        <div class="alert alert-info text-center" role="alert">
+            Você ainda não aceitou nenhum serviço.
+        </div>
     <?php else: ?>
-        <?php foreach ($servicos as $servico): ?>
-            <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 10px;">
-                <strong>Serviço:</strong> <?= htmlspecialchars($servico['Titulo']) ?><br>
-                <strong>Tipo:</strong> <?= htmlspecialchars($servico['Tipo']) ?><br>
-                <strong>Data:</strong> <?= date('d/m/Y', strtotime($servico['DataSolicitada'])) ?><br>
-                <strong>Contratante:</strong> <?= htmlspecialchars($servico['NomeUsuario']) ?><br>
-                <strong>CR do usuário:</strong> <?= $servico['CR'] ?><br>
-            </div>
-        <?php endforeach; ?>
+        <div class="row g-4">
+            <?php foreach ($servicos as $servico): ?>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card card-compromisso p-4 h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <h5 class="fw-bold"><?= htmlspecialchars($servico['Titulo']) ?></h5>
+                            <p class="mb-1"><strong>Tipo:</strong> <?= htmlspecialchars($servico['Tipo']) ?></p>
+                            <p class="mb-1"><strong>Data:</strong> <?= date('d/m/Y', strtotime($servico['DataSolicitada'])) ?></p>
+                            <p class="mb-1"><strong>Contratante:</strong> <?= htmlspecialchars($servico['NomeUsuario']) ?></p>
+                            <p class="mb-1"><strong>CR do Usuário:</strong> <?= htmlspecialchars($servico['CR']) ?></p>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
     <?php endif; ?>
+</div>
+
 </body>
 </html>
