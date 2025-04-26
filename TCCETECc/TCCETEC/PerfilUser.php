@@ -220,7 +220,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto'])) {
     <div class="d-flex justify-content-center mt-4">
         <a href="EditarUser.php" class="btn btn-primary btn-lg rounded-pill">Editar Perfil</a>
     </div>
-
+    <div class="d-flex justify-content-center mt-4">
+        <a href="Tela_Inicio.html" class="btn btn-primary btn-lg rounded-pill">Voltar</a>
+    </div>
    
 
 <?php include 'footer.php'; ?>

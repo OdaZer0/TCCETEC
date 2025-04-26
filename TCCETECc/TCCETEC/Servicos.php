@@ -65,6 +65,7 @@ $servicos = $stmt->fetchAll();
         <?php endforeach; ?>
     </div>
 </div>
+<a href="Tela_autonomo.html" class="btn btn-secondary mt-3">Voltar</a>
 
 </body>
 </html>
