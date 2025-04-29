@@ -146,6 +146,7 @@ if (!$user) {
                     <h3>Controle de Autonômo</h3>
                     <a href="CtrlADM_Autonomo.php">Controle de Autonômo</a>
                 </div>
+                <a href="visualizar_reclamacoesfront.php">Ver probrema</a>
             </div>
         </div>
         <?php include 'footer.php'; ?>

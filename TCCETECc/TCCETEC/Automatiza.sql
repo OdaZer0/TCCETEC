@@ -61,6 +61,23 @@ CREATE TABLE Administrador (
     Cargo VARCHAR(20),
     Foto BLOB -- Armazena a foto como dados binários
 );
+CREATE TABLE ReclamaoDenuncia (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Tipo ENUM(
+        'Denúncia de Usuário',
+        'Denúncia de Autônomo',
+        'Denúncia Geral',
+        'Bug',
+        'Sugestão',
+        'Reclamação do Sistema'
+    ) NOT NULL,
+    Descricao TEXT NOT NULL,
+    Data TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CR_QuemReclamou INT NOT NULL,
+    CR_Acusado INT, -- Pode ser NULL dependendo do tipo
+    Status ENUM('Pendente', 'Resolvido') DEFAULT 'Pendente'
+);
+
 
 CREATE DATABASE chat_app;
 
@@ -76,10 +93,12 @@ CREATE TABLE mensagens (
 SHOW TABLES;
 desc Usuario;
 Select * From Usuario;
-Select * From Autonomo;
+Select * From Administrador;
 Select* From SolicitacoesServico;
 drop table SolicitacoesServico;
 Delete from Autonomo Where CR > 1;
+Select * From ReclamaoDenuncia;
+SELECT * FROM ReclamaoDenuncia WHERE Status != 'Resolvido' ORDER BY Data DESC;
 
 INSERT INTO Usuario (CR, Nome, Email, Senha, Cpf, Cep, Avisos, Foto) VALUES
 (54321, 'João Silva', 'joao.silva@email.com', 'senhaCriptografada1', 12345678901, 12345678, 0, NULL),

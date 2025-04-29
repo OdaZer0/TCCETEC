@@ -16,11 +16,10 @@ if (isset($_SESSION['ultima_atividade']) && (time() - $_SESSION['ultima_atividad
 // Atualizar o tempo da última atividade
 $_SESSION['ultima_atividade'] = time();
 
-// Sua lógica de login aqui...
-include "Cls_User.php"; // Supondo que você tenha uma classe para gerenciar o usuário
-
 // Conectar ao banco de dados
-$pdo = Conexao::getConexao();
+include "conexao.php";
+$pdo = Conexao::getConexao(); // ← Adiciona esta linha
+
 
 // Receber os dados do formulário de login
 $username = filter_input(INPUT_POST, 'usuario');
@@ -40,32 +39,37 @@ if (!$user) {
     $user = $query->fetch();
 }
 
-if(!$user){
-    $query = $pdo ->prepare("SELECT Id, Email, Senha, 'ADM' AS tipo FROM Administrador WHERE Email = :Email LIMIT 1");
-    $query -> bindParam(':Email', $username);
-    $query-> execute();
-    $user = $query ->fetch();
+// Se não encontrar, tenta na tabela 'Administradores'
+if (!$user) {
+    $query = $pdo->prepare("SELECT Id, Email, Senha, 'ADM' AS tipo FROM Administrador WHERE Email = :Email LIMIT 1");
+    $query->bindParam(':Email', $username);
+    $query->execute();
+    $user = $query->fetch();
 }
 
+// DEPURAÇÃO – VERIFICANDO O QUE VEIO DO BANCO
+//echo "<pre>";
+//var_dump($user);
+//echo "</pre>";
+//exit();
+
+// Verifica se as credenciais são válidas
 if ($user && password_verify($password, $user['Senha'])) {
-    // Se a senha for válida, criamos a sessão
+    // Se a senha for válida, cria a sessão
     $_SESSION['usuario_id'] = $user['Id'];
     $_SESSION['user_email'] = $user['Email'];
+    $_SESSION['usuario_tipo'] = $user['tipo'];  // Definindo corretamente o tipo de usuário
     $_SESSION['ultima_atividade'] = time(); // Registra o momento da última atividade
 
-    // Redireciona para a Tela Inicial com base na tabela de origem
+    // Redireciona conforme o tipo de usuário
     if ($user['tipo'] == 'autonomo') {
-        // O usuário foi encontrado na tabela de 'Autonomo', então redireciona para a tela de autônomos
         header("Location: Tela_autonomo.html");
-    
     }
-    elseif($user['tipo']=='ADM'){
+    elseif($user['tipo'] == 'ADM'){
         header("Location: Tela_Adm.php");
     } else {
-        // O usuário foi encontrado na tabela de 'Usuario', então redireciona para a tela de usuários
         header("Location: Tela_Inicio.html");
     }
-
     exit();
 } else {
     // Se as credenciais estiverem incorretas
