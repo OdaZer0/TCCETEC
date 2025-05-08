@@ -177,11 +177,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto'])) {
   
     <div class="row justify-content-center mb-4">
     <div class="col-md-3 text-center">
-            <!-- Exibe a foto do usuário -->
+           
             <?php if ($user['Foto']): ?>
-                <img src="data:image/jpeg;base64,<?php echo base64_encode($user['Foto']); ?>" alt="Foto do Usuário" class="img-fluid rounded-circle profile-pic">
+                <img src="data:image/jpeg;base64,<?php echo base64_encode($user['Foto']); ?>">
             <?php else: ?>
-                <img src="imagens/Fundo de Autônomo (Sem passar o mouse).png" alt="Foto do Usuário" class="img-fluid rounded-circle profile-pic">
+                <img src="imagens/Fundo de Usuário (Sem passar o mouse).png" >
             <?php endif; ?>
         </div>
     </div>
