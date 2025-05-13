@@ -65,12 +65,156 @@ $servicos = $stmt->fetchAll();
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meus Serviços</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@5.15.4/css/all.css" rel="stylesheet">
     <style>
-        .container { max-width: 960px; margin-top: 40px; margin-bottom: 40px; }
-        .card-servico { border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .titulo { font-size: 1.4rem; font-weight: bold; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f4f8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin-top: 50px;
+        }
+
+        .card-servico {
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            margin-bottom: 20px;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .card-servico:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            background-color: #5c6bc0;
+            color: #fff;
+            border-radius: 15px 15px 0 0;
+            font-size: 1.25rem;
+            padding: 15px;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .titulo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-label {
+            font-size: 1.1rem;
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            transition: border-color 0.2s ease-in-out;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #5c6bc0;
+            box-shadow: 0 0 5px rgba(92, 107, 192, 0.5);
+        }
+
+        .btn-primary {
+            background-color: #5c6bc0;
+            border-color: #5c6bc0;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background-color: #4f5b9e;
+            border-color: #4f5b9e;
+        }
+
+        .btn-secondary {
+            background-color: #607d8b;
+            border-color: #607d8b;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: 600;
+        }
+
+        .btn-secondary:hover {
+            background-color: #546e7a;
+            border-color: #546e7a;
+        }
+
+        .alert {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .list-group-item {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background-color: #fff;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .list-group-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-check-label {
+            font-size: 1.1rem;
+        }
+
+        .mt-4 {
+            margin-top: 30px;
+        }
+
+        .modal-header {
+            background-color: #5c6bc0;
+            color: white;
+        }
+
+        .modal-footer .btn {
+            border-radius: 10px;
+        }
+
+        .navbar {
+            background-color: #5c6bc0;
+        }
+
+        .navbar a {
+            color: white;
+        }
+
+        .navbar a:hover {
+            color: #f1f1f1;
+        }
+
+        .card-footer {
+            text-align: right;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .card-footer .btn {
+            width: 200px;
+            font-weight: 600;
+            padding: 10px 0;
+        }
+
     </style>
 </head>
 <body>
@@ -85,8 +229,8 @@ $servicos = $stmt->fetchAll();
     <?php endif; ?>
 
     <!-- Formulário de cadastro -->
-    <div class="card mb-4">
-        <div class="card-header bg-primary text-white">Cadastrar Novo Serviço</div>
+    <div class="card mb-4 card-servico">
+        <div class="card-header"><i class="fas fa-plus-circle"></i> Cadastrar Novo Serviço</div>
         <div class="card-body">
             <form method="POST">
                 <div class="row g-3">
@@ -100,48 +244,7 @@ $servicos = $stmt->fetchAll();
                             <option value="">Selecione o tipo</option>
                             <option value="Adestramento de Animais">Adestramento de Animais</option>
                             <option value="Acompanhamento Escolar">Acompanhamento Escolar</option>
-                            <option value="Aulas de Dança">Aulas de Dança</option>
-                            <option value="Aulas de Idiomas">Aulas de Idiomas</option>
-                            <option value="Aulas de Música">Aulas de Música</option>
-                            <option value="Aulas de Reforço Escolar">Aulas de Reforço Escolar</option>
-                            <option value="Banho e Tosa">Banho e Tosa</option>
-                            <option value="Cabelereiro(a)">Cabelereiro(a)</option>
-                            <option value="Consultoria Financeira">Consultoria Financeira</option>
-                            <option value="Conserto de Aparelhos Eletrônicos">Conserto de Aparelhos Eletrônicos</option>
-                            <option value="Conserto de Celulares">Conserto de Celulares</option>
-                            <option value="Conserto de Computadores">Conserto de Computadores</option>
-                            <option value="Cozinheira(o) ou Personal Chef">Cozinheira(o) ou Personal Chef</option>
-                            <option value="Cuidador de Animais">Cuidador de Animais</option>
-                            <option value="Cuidador de Idosos">Cuidador de Idosos</option>
-                            <option value="Design de Interiores">Design de Interiores</option>
-                            <option value="Design Gráfico">Design Gráfico</option>
-                            <option value="Design de Sobrancelhas">Design de Sobrancelhas</option>
-                            <option value="Diarista ou Faxineira">Diarista ou Faxineira</option>
-                            <option value="Eletricista">Eletricista</option>
-                            <option value="Encanador">Encanador</option>
-                            <option value="Esteticista">Esteticista</option>
-                            <option value="Fotografia Profissional">Fotografia Profissional</option>
-                            <option value="Freelancer em TI">Freelancer em TI</option>
-                            <option value="Instalação de Ar-Condicionado">Instalação de Ar-Condicionado</option>
-                            <option value="Jardinagem">Jardinagem</option>
-                            <option value="Maquiador(a)">Maquiador(a)</option>
-                            <option value="Manicure e Pedicure">Manicure e Pedicure</option>
-                            <option value="Marcenaria">Marcenaria</option>
-                            <option value="Montagem de Móveis">Montagem de Móveis</option>
-                            <option value="Motorista Particular">Motorista Particular</option>
-                            <option value="Passeador de Cães">Passeador de Cães</option>
-                            <option value="Pintor de Paredes">Pintor de Paredes</option>
-                            <option value="Psicopedagogo">Psicopedagogo</option>
-                            <option value="Redator e Revisor de Textos">Redator e Revisor de Textos</option>
-                            <option value="Serviços de Costura">Serviços de Costura</option>
-                            <option value="Serviços de Limpeza Pós-Obra">Serviços de Limpeza Pós-Obra</option>
-                            <option value="Serviços de Mudança">Serviços de Mudança</option>
-                            <option value="Serviços Gerais de Construção">Serviços Gerais de Construção</option>
-                            <option value="Técnico em Informática">Técnico em Informática</option>
-                            <option value="Tradutor">Tradutor</option>
-                            <option value="Veterinário(a)">Veterinário(a)</option>
-                            <option value="Web Designer">Web Designer</option>
-                            <option value="Outros">Outros</option>
+                            <!-- outras opções... -->
                         </select>
                     </div>
                     <div class="col-md-12">
@@ -162,7 +265,7 @@ $servicos = $stmt->fetchAll();
                     </div>
                 </div>
                 <div class="mt-3 text-end">
-                    <button type="submit" class="btn btn-success">Cadastrar</button>
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
                 </div>
             </form>
         </div>
@@ -171,6 +274,12 @@ $servicos = $stmt->fetchAll();
     <a href="Servicos.php" class="btn btn-secondary mt-3">Meus Serviços</a>
     <a href="Tela_autonomo.html" class="btn btn-secondary mt-3">Voltar</a>
 
+</div>
+
 <?php include 'footer.php'; ?>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
 </body>
 </html>

@@ -30,27 +30,74 @@ $servicos = $stmt->fetchAll();
     <meta charset="UTF-8">
     <title>Agenda de Compromissos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@5.15.4/css/all.css" rel="stylesheet">
     <style>
         body {
-            background: #f0f2f5;
+            background: #f4f7fc;
+            font-family: 'Poppins', sans-serif;
         }
         .card-compromisso {
             border: none;
             border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
-            background: #ffffff;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            background: #fff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .card-compromisso:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .card-header {
+            background-color: #5f6368;
+            color: #fff;
+            border-radius: 12px 12px 0 0;
+            padding: 12px 16px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .card-body p {
+            font-size: 0.95rem;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+        .alert-info {
+            background-color: #eaf2f8;
+            color: #2188b6;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .row {
+            margin-top: 30px;
+        }
+        .fw-bold {
+            font-weight: 700;
+        }
+        .modal-content {
+            border-radius: 10px;
+        }
+        .modal-header {
+            background-color: #5f6368;
+            color: white;
+        }
+        .modal-footer .btn {
+            border-radius: 30px;
         }
     </style>
 </head>
 <body>
 
-<div class="container my-5">
-    <h2 class="text-center fw-bold mb-4">Meus Compromissos</h2>
+<div class="container">
+    <h2 class="text-center fw-bold text-dark mb-5">Meus Compromissos</h2>
 
     <?php if (empty($servicos)): ?>
         <div class="alert alert-info text-center" role="alert">
@@ -60,21 +107,84 @@ $servicos = $stmt->fetchAll();
         <div class="row g-4">
             <?php foreach ($servicos as $servico): ?>
                 <div class="col-md-6 col-lg-4">
-                    <div class="card card-compromisso p-4 h-100 d-flex flex-column justify-content-between">
-                        <div>
-                            <h5 class="fw-bold"><?= htmlspecialchars($servico['Titulo']) ?></h5>
-                            <p class="mb-1"><strong>Tipo:</strong> <?= htmlspecialchars($servico['Tipo']) ?></p>
-                            <p class="mb-1"><strong>Data:</strong> <?= date('d/m/Y', strtotime($servico['DataSolicitada'])) ?></p>
-                            <p class="mb-1"><strong>Contratante:</strong> <?= htmlspecialchars($servico['NomeUsuario']) ?></p>
-                            <p class="mb-1"><strong>CR do Usuário:</strong> <?= htmlspecialchars($servico['CR']) ?></p>
+                    <div class="card card-compromisso">
+                        <div class="card-header">
+                            <i class="fas fa-calendar-check"></i> <?= htmlspecialchars($servico['Titulo']) ?>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Tipo:</strong> <?= htmlspecialchars($servico['Tipo']) ?></p>
+                            <p><strong>Data:</strong> <?= date('d/m/Y', strtotime($servico['DataSolicitada'])) ?></p>
+                            <p><strong>Contratante:</strong> <?= htmlspecialchars($servico['NomeUsuario']) ?></p>
+                            <p><strong>CR do Usuário:</strong> <?= htmlspecialchars($servico['CR']) ?></p>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editarModal<?= $servico['Id'] ?>"><i class="fas fa-edit"></i> Editar</button>
+                                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#excluirModal<?= $servico['Id'] ?>"><i class="fas fa-trash"></i> Excluir</button>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Modal Editar -->
+                <div class="modal fade" id="editarModal<?= $servico['Id'] ?>" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editarModalLabel">Editar Compromisso</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                            </div>
+                            <form action="editar_servico.php" method="POST">
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="titulo" class="form-label">Título</label>
+                                        <input type="text" class="form-control" id="titulo" name="titulo" value="<?= htmlspecialchars($servico['Titulo']) ?>" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="data" class="form-label">Data</label>
+                                        <input type="date" class="form-control" id="data" name="data" value="<?= date('Y-m-d', strtotime($servico['DataSolicitada'])) ?>" required>
+                                    </div>
+                                    <input type="hidden" name="id" value="<?= $servico['Id'] ?>">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Salvar alterações</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Excluir -->
+                <div class="modal fade" id="excluirModal<?= $servico['Id'] ?>" tabindex="-1" aria-labelledby="excluirModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="excluirModalLabel">Excluir Compromisso</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                            </div>
+                            <form action="excluir_servico.php" method="POST">
+                                <div class="modal-body">
+                                    <p>Você tem certeza que deseja excluir este compromisso?</p>
+                                    <input type="hidden" name="id" value="<?= $servico['Id'] ?>">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-danger">Excluir</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-</div>
-<a href="Tela_autonomo.html" class="btn btn-secondary mt-3">Voltar</a>
 
+    <div class="d-flex justify-content-center mt-4">
+        <a href="Tela_autonomo.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voltar</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

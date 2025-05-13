@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot</title>
     <style>
-        /* Chatbot Button */
+        /* Botão flutuante */
         .chatbot-btn {
             position: fixed;
             bottom: 20px;
@@ -27,7 +28,7 @@
             background-color: #ff4a35;
         }
 
-        /* Chatbot Window */
+        /* Janela do chatbot */
         .chatbot-window {
             position: fixed;
             bottom: 80px;
@@ -57,6 +58,7 @@
             padding: 10px;
             flex-grow: 1;
             overflow-y: auto;
+            max-height: calc(100% - 80px);
         }
 
         .chatbot-footer {
@@ -85,7 +87,6 @@
             background-color: #0056b3;
         }
 
-        /* Messages */
         .message {
             margin-bottom: 15px;
         }
@@ -98,7 +99,6 @@
             text-align: right;
         }
 
-        /* Responsividade */
         @media (max-width: 480px) {
             .chatbot-window {
                 width: 100%;
@@ -115,24 +115,25 @@
         }
     </style>
 </head>
+
 <body>
 
-    <!-- Chatbot Button -->
+    <!-- Botão flutuante para abrir o chatbot -->
     <div class="chatbot-btn" onclick="toggleChatbot()">
         <img src="https://via.placeholder.com/50/007bff/ffffff?text=Chatbot" alt="Chatbot">
     </div>
 
-    <!-- Chatbot Window -->
+    <!-- Janela do chatbot -->
     <div class="chatbot-window" id="chatbotWindow">
         <div class="chatbot-header">
             <span>Chat com o Bot</span>
             <button onclick="toggleChatbot()">X</button>
         </div>
         <div class="chatbot-body" id="chatbotBody">
-            <!-- Messages will appear here -->
+            <!-- As mensagens serão inseridas aqui -->
         </div>
         <div class="chatbot-footer">
-            <input type="text" id="userInput" placeholder="Digite uma mensagem...">
+            <input type="text" id="userInput" placeholder="Digite uma mensagem..." onkeydown="checkEnter(event)">
             <button onclick="sendMessage()">Enviar</button>
         </div>
     </div>
@@ -142,8 +143,8 @@
         let chatbotBody = document.getElementById('chatbotBody');
         let userInput = document.getElementById('userInput');
 
+        // Função para alternar a visibilidade do chatbot
         function toggleChatbot() {
-            // Toggle the visibility of the chatbot window
             if (chatbotWindow.style.display === 'none' || chatbotWindow.style.display === '') {
                 chatbotWindow.style.display = 'flex';
             } else {
@@ -151,27 +152,54 @@
             }
         }
 
+        // Função para enviar a mensagem
         function sendMessage() {
-            let message = userInput.value;
-            if (message.trim() !== '') {
-                // Add user message
+            let message = userInput.value.trim();
+            if (message !== '') {
+                // Adiciona a mensagem do usuário
                 addMessage(message, 'user');
                 userInput.value = '';
 
-                // Simulate bot response
+                // Simula uma resposta do bot com base na mensagem do usuário
                 setTimeout(() => {
-                    addMessage('Olá, como posso ajudá-lo?', 'bot');
+                    let botResponse = generateBotResponse(message);
+                    addMessage(botResponse, 'bot');
                 }, 1000);
             }
         }
 
+        // Função para verificar o pressionamento da tecla "Enter" para enviar mensagem
+        function checkEnter(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Função para adicionar uma mensagem no chat
         function addMessage(message, sender) {
             let messageDiv = document.createElement('div');
             messageDiv.classList.add('message', sender);
             messageDiv.textContent = message;
             chatbotBody.appendChild(messageDiv);
-            chatbotBody.scrollTop = chatbotBody.scrollHeight;  // Scroll to bottom
+            chatbotBody.scrollTop = chatbotBody.scrollHeight; // Rola até a última mensagem
+        }
+
+        // Função para gerar uma resposta simples do bot (você pode melhorar isso)
+        function generateBotResponse(userMessage) {
+            const lowerMessage = userMessage.toLowerCase();
+
+            if (lowerMessage.includes("olá") || lowerMessage.includes("oi")) {
+                return "Olá! Como posso ajudar você hoje?";
+            } else if (lowerMessage.includes("como vai")) {
+                return "Estou bem, obrigado por perguntar! E você?";
+            } else if (lowerMessage.includes("qual seu nome")) {
+                return "Eu sou o Chatbot! Como posso assisti-lo?";
+            } else {
+                return "Desculpe, não entendi a sua pergunta. Pode reformular?";
+            }
         }
     </script>
+
 </body>
+
 </html>
