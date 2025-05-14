@@ -92,6 +92,7 @@
 </head>
 
 <body>
+    <a href="Cadastro_Adm.html">cadasto eba</a>
 
     <!-- Header -->
     <?php include 'header.php'; ?>

@@ -7,8 +7,8 @@ CREATE TABLE Usuario (
     Nome VARCHAR(50),
     Email VARCHAR(60),
     Senha VARCHAR(250), -- Tamanho alto devido à criptografia
-    Cpf BIGINT(11) UNIQUE, -- Somente números
-    Cep INT(8), -- Somente números
+    Cpf varchar(14) UNIQUE, -- Somente números
+    Cep varchar(9), -- Somente números
     Avisos INT(3) DEFAULT 0,
     Foto BLOB -- Armazena a foto como dados binários
 );
@@ -19,8 +19,8 @@ CREATE TABLE Autonomo (
     Nome VARCHAR(50),
     Email VARCHAR(60),
     Senha VARCHAR(250), -- Tamanho alto devido à criptografia
-    Cpf BIGINT(11) UNIQUE, -- Somente números
-    Cep INT(8), -- Somente números
+    Cpf varchar(14) UNIQUE, -- Somente números
+    Cep varchar(9), -- Somente números
     AreaAtuacao VARCHAR(20),
     NivelFormacao VARCHAR(20),
     Avisos INT(3) DEFAULT 0,
@@ -92,10 +92,10 @@ CREATE TABLE mensagens (
 
 SHOW TABLES;
 desc Usuario;
-Select * From Usuario;
+Select * From Autonomo;
 Select * From Administrador;
 Select* From SolicitacoesServico;
-drop table SolicitacoesServico;
+drop table Usuario;
 Delete from Autonomo Where CR > 1;
 Select * From ReclamaoDenuncia;
 SELECT * FROM ReclamaoDenuncia WHERE Status != 'Resolvido' ORDER BY Data DESC;

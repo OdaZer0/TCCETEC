@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Reset Global */
+      
         * {
             margin: 0;
             padding: 0;
@@ -25,7 +25,7 @@
             line-height: 1.6;
         }
 
-        /* ------------------- Navbar ------------------- */
+        
         .navbar {
             background-color: #007bff;
             padding: 15px;
@@ -51,7 +51,6 @@
             font-weight: 700;
         }
 
-        /* ------------------- Hero Section ------------------- */
         .hero {
             background: url('https://via.placeholder.com/1920x800/007bff/ffffff?text=Hero+Image') no-repeat center center/cover;
             color: white;
@@ -140,7 +139,7 @@
             font-size: 1rem;
         }
 
-        /* ------------------- How It Works Section ------------------- */
+       
         .how-it-works {
             padding: 60px 0;
             background-color: #f4f4f4;
@@ -194,7 +193,7 @@
             }
         }
 
-        /* ------------------- Testimonials ------------------- */
+        
         .testimonials {
             padding: 60px 0;
             background-color: #ffffff;
@@ -233,7 +232,7 @@
             font-weight: bold;
         }
 
-        /* ------------------- Call to Action ------------------- */
+        
         .cta {
             background-color: #ff6f61;
             color: white;
@@ -276,7 +275,7 @@
             }
         }
 
-        /* ------------------- Footer ------------------- */
+ 
         footer {
             background-color: #007bff;
             color: white;
@@ -312,7 +311,7 @@
             color: #ff6f61;
         }
 
-        /* ------------------- Responsividade ------------------- */
+        
         @media (max-width: 768px) {
             .service-item {
                 width: 45%;
@@ -370,7 +369,7 @@
             height: 40px;
         }
 
-            /* ------------------- Chatbot Button ------------------- */
+     
             .chatbot-btn {
             position: fixed;
             bottom: 20px;
@@ -400,7 +399,7 @@
             object-fit: cover; /* Isso vai fazer a imagem se ajustar ao botão sem distorcer */
         }
 
-        /* ------------------- Chatbot Button ------------------- */
+     
         .chatbot-btn {
             position: fixed;
             bottom: 20px;
@@ -422,20 +421,20 @@
             transform: scale(1.1);
         }
 
-        /* Adicionando para a imagem não distorcer */
+       
         .chatbot-btn img {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            object-fit: cover; /* Isso vai fazer a imagem se ajustar ao botão sem distorcer */
+            object-fit: cover; 
         }
 
-        /* Quando passar o mouse, muda a imagem */
+      
         .chatbot-btn:hover img {
-            content: url('https://via.placeholder.com/70/ff6f61/ffffff?text=Chatbot'); /* Substitua pelo link da imagem ao passar o mouse */
+            content: url('https://via.placeholder.com/70/ff6f61/ffffff?text=Chatbot'); 
         }
 
-        /* ------------------- Chatbot Popup ------------------- */
+       
         .chatbot-popup {
             position: fixed;
             bottom: 100px;

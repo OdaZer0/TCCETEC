@@ -99,27 +99,7 @@
 
       <div class="mb-3">
         <label class="form-label">CEP</label>
-        <input type="text" name="cep" id="cep" class="form-control" required maxlength="9" placeholder="Ex: 12345-678">
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Rua</label>
-        <input type="text" name="rua" id="rua" class="form-control" readonly>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Bairro</label>
-        <input type="text" name="bairro" id="bairro" class="form-control" readonly>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Cidade</label>
-        <input type="text" name="cidade" id="cidade" class="form-control" readonly>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Estado (UF)</label>
-        <input type="text" name="uf" id="uf" class="form-control" readonly>
+        <input type="text" name="cep" id="cep" class="form-control" required maxlength= "9" placeholder="Ex: 12345-678">
       </div>
 
       <div class="mb-3">
@@ -144,43 +124,7 @@
   <script>
     AOS.init({ duration: 800, once: true });
 
-    const cpfInput = document.getElementById('cpf');
-    cpfInput.addEventListener('input', function () {
-      let v = this.value.replace(/\D/g, '');
-      if (v.length > 3) v = v.replace(/^(\d{3})(\d)/, '$1.$2');
-      if (v.length > 6) v = v.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
-      if (v.length > 9) v = v.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3-$4');
-      this.value = v;
-    });
-
-    const cepInput = document.getElementById('cep');
-    cepInput.addEventListener('input', function () {
-      let v = this.value.replace(/\D/g, '');
-      if (v.length > 5) v = v.replace(/^(\d{5})(\d)/, '$1-$2');
-      this.value = v;
-    });
-
-    cepInput.addEventListener('blur', function () {
-      const cep = this.value.replace(/\D/g, '');
-      if (cep.length === 8) {
-        fetch(`https://viacep.com.br/ws/${cep}/json/`)
-          .then(res => res.json())
-          .then(data => {
-            if (data.erro) {
-              showAlert('CEP não encontrado.', 'danger');
-            } else {
-              document.getElementById('rua').value = data.logradouro || '';
-              document.getElementById('bairro').value = data.bairro || '';
-              document.getElementById('cidade').value = data.localidade || '';
-              document.getElementById('uf').value = data.uf || '';
-              showAlert(`CEP válido: ${data.localidade} - ${data.uf}`, 'success');
-            }
-          }).catch(() => {
-            showAlert('Erro ao buscar CEP.', 'danger');
-          });
-      }
-    });
-
+    
     function toggleSenha() {
       const senhaInput = document.getElementById('senha');
       const icone = document.getElementById('icone-senha');

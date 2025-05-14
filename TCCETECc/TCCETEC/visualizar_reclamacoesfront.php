@@ -1,54 +1,108 @@
 <?php
 session_start();
 include 'conexao.php';
-//echo "<pre>";
-//print_r($_SESSION);
-//echo "</pre>";
 
-
-// Verifica se o usuário está logado e se é um administrador
-if (!isset($_SESSION['usuario_id']) || !isset($_SESSION['usuario_tipo']) || $_SESSION['usuario_tipo'] != 'ADM') {
-    die("Acesso restrito a administradores.");
+if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] !== 'ADM') {
+    header("Location: login.php");
+    exit();
 }
 
 $pdo = Conexao::getConexao();
 
-// Buscar as reclamações do banco de dados
-$stmt = $pdo->prepare("SELECT * FROM ReclamaoDenuncia WHERE Status != 'Resolvido' ORDER BY Data DESC");
-$stmt->execute();
-$reclamacoes = $stmt->fetchAll();
+// Busca as reclamações da mais ANTIGA para a mais NOVA
+$query = $pdo->query("SELECT * FROM ReclamaoDenuncia ORDER BY Data ASC");
+$reclamacoes = $query->fetchAll();
+?>
 
-if (!$reclamacoes) {
-    echo "<p>Nenhuma reclamação encontrada.</p>";
-} else {
-    // Exibe as reclamações
-    foreach ($reclamacoes as $reclamacao) {
-        $status = $reclamacao['Status'] == 'Fechado' ? 'Fechado' : 'Aberto';
-        echo "<div class='reclamacao'>
-                <div class='reclamacao-header'>
-                    <h5>{$reclamacao['Tipo']}</h5>
-                    <button class='btn btn-info' data-bs-toggle='collapse' data-bs-target='#reclamacao-{$reclamacao['Id']}'>Expandir</button>
-                </div>
-                <div id='reclamacao-{$reclamacao['Id']}' class='collapse'>
-                    <div class='reclamacao-body'>
-                        <p><strong>Descrição:</strong> {$reclamacao['Descricao']}</p>
-                        <p><strong>CR do Reclamante:</strong> {$reclamacao['CR_QuemReclamou']}</p>
-                        <p><strong>CR do Acusado:</strong> {$reclamacao['CR_Acusado']}</p>
-                        <p><strong>Data:</strong> {$reclamacao['Data']}</p>
-                        <p><strong>Status:</strong> {$status}</p>
-                        <div class='d-flex'>
-                            <form method='POST' action='fechar_reclamacao.php'>
-                                <input type='hidden' name='reclamacao_id' value='{$reclamacao['Id']}'>
-                                <button type='submit' class='btn btn-success'>Fechar</button>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Reclamações e Denúncias</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f2f4f8;
+            font-family: 'Arial', sans-serif;
+        }
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.02);
+        }
+        .card-title {
+            font-weight: bold;
+        }
+        .badge-warning {
+            background-color: orange;
+        }
+        .badge-success {
+            background-color: green;
+        }
+        .grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: flex-start;
+        }
+        .grid-item {
+            flex: 0 1 calc(33.333% - 20px); /* 3 colunas */
+        }
+        @media (max-width: 768px) {
+            .grid-item {
+                flex: 0 1 calc(50% - 20px); /* 2 colunas em telas médias */
+            }
+        }
+        @media (max-width: 480px) {
+            .grid-item {
+                flex: 0 1 100%; /* 1 coluna em telas pequenas */
+            }
+        }
+    </style>
+</head>
+<body>
+<?php include 'header.php'; ?>
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Reclamações e Denúncias</h2>
+
+    <div class="grid-container">
+        <?php if (count($reclamacoes) === 0): ?>
+            <p class="text-center">Nenhuma reclamação encontrada.</p>
+        <?php else: ?>
+            <?php foreach ($reclamacoes as $rec): ?>
+                <div class="grid-item">
+                    <div class="card p-3">
+                        <h5 class="card-title"><?= htmlspecialchars($rec['Tipo']) ?></h5>
+                        <p class="card-text"><strong>Descrição:</strong><br><?= nl2br(htmlspecialchars($rec['Descricao'])) ?></p>
+                        <p><strong>Data:</strong> <?= date('d/m/Y H:i', strtotime($rec['Data'])) ?></p>
+                        <p><strong>Quem Reclamou (CR):</strong> <?= $rec['CR_QuemReclamou'] ?></p>
+                        <p><strong>Acusado (CR):</strong> <?= $rec['CR_Acusado'] ?? '-' ?></p>
+                        <p><strong>Status:</strong>
+                            <span class="badge <?= $rec['Status'] === 'Resolvido' ? 'badge-success' : 'badge-warning' ?>">
+                                <?= $rec['Status'] ?>
+                            </span>
+                        </p>
+
+                        <?php if ($rec['Status'] === 'Pendente'): ?>
+                            <form method="POST" action="marcar_resolvido.php">
+                                <input type="hidden" name="id" value="<?= $rec['Id'] ?>">
+                                <button class="btn btn-sm btn-outline-success w-100">Fechar Denúncia</button>
                             </form>
-                            <form method='POST' action='salvar_como_grave.php'>
-                                <input type='hidden' name='reclamacao_id' value='{$reclamacao['Id']}'>
-                                <button type='submit' class='btn btn-danger ms-2'>Salvar como Grave</button>
-                            </form>
-                        </div>
+                        <?php else: ?>
+                            <button class="btn btn-sm btn-secondary w-100" disabled>Já Resolvida</button>
+                        <?php endif; ?>
                     </div>
                 </div>
-            </div><br>";
-    }
-}
-?>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+</div>
+
+<?php include 'footer.php'; ?>
+</body>
+</html>

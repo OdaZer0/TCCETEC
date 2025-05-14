@@ -66,7 +66,7 @@
   <?php include 'header.php'; ?>
 
   <div class="form-wrapper" data-aos="zoom-in">
-    <form id="formCadastro" action="Crtl_Autonomo.php" method="POST" enctype="multipart/form-data" novalidate>
+    <form id="formCadastro" action="Crtl_User.php" method="POST" enctype="multipart/form-data" novalidate>
       <h2 class="form-title"><i class="bi bi-person-lines-fill"></i> Cadastro de Autônomo</h2>
 
       <div id="alerta" class="alert" role="alert"></div>
@@ -102,36 +102,6 @@
         <input type="text" name="cep" id="cep" class="form-control" required maxlength="9" placeholder="Ex: 12345-678">
       </div>
 
-      <div class="mb-3">
-        <label class="form-label">Rua</label>
-        <input type="text" name="rua" id="rua" class="form-control" readonly>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Bairro</label>
-        <input type="text" name="bairro" id="bairro" class="form-control" readonly>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Cidade</label>
-        <input type="text" name="cidade" id="cidade" class="form-control" readonly>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Estado (UF)</label>
-        <input type="text" name="uf" id="uf" class="form-control" readonly>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Área de atuação</label>
-        <input type="text" name="area_atuacao" class="form-control" required maxlength="30" placeholder="Ex: Pedreiro, Eletricista...">
-      </div>
-
-      <div class="mb-4">
-        <label class="form-label">Nível de formação</label>
-        <input type="text" name="nvl_formacao" class="form-control" required maxlength="30" placeholder="Ex: Ensino Médio, Técnico...">
-      </div>
-
       <div class="d-flex justify-content-center gap-3">
         <button type="submit" class="btn btn-primary btn-custom"><i class="bi bi-check-circle"></i> Cadastrar</button>
         <button type="reset" class="btn btn-outline-secondary btn-custom"><i class="bi bi-x-circle"></i> Limpar</button>
@@ -143,44 +113,6 @@
 
   <script>
     AOS.init({ duration: 800, once: true });
-
-    const cpfInput = document.getElementById('cpf');
-    cpfInput.addEventListener('input', function () {
-      let v = this.value.replace(/\D/g, '');
-      if (v.length > 3) v = v.replace(/^(\d{3})(\d)/, '$1.$2');
-      if (v.length > 6) v = v.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
-      if (v.length > 9) v = v.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3-$4');
-      this.value = v;
-    });
-
-    const cepInput = document.getElementById('cep');
-    cepInput.addEventListener('input', function () {
-      let v = this.value.replace(/\D/g, '');
-      if (v.length > 5) v = v.replace(/^(\d{5})(\d)/, '$1-$2');
-      this.value = v;
-    });
-
-    
-    cepInput.addEventListener('blur', function () {
-      const cep = this.value.replace(/\D/g, '');
-      if (cep.length === 8) {
-        fetch(`https://viacep.com.br/ws/${cep}/json/`)
-          .then(res => res.json())
-          .then(data => {
-            if (data.erro) {
-              showAlert('CEP não encontrado.', 'danger');
-            } else {
-              document.getElementById('rua').value = data.logradouro || '';
-              document.getElementById('bairro').value = data.bairro || '';
-              document.getElementById('cidade').value = data.localidade || '';
-              document.getElementById('uf').value = data.uf || '';
-              showAlert(`CEP válido: ${data.localidade} - ${data.uf}`, 'success');
-            }
-          }).catch(() => {
-            showAlert('Erro ao buscar CEP.', 'danger');
-          });
-      }
-    });
 
     
     function toggleSenha() {
