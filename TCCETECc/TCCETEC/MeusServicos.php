@@ -238,15 +238,57 @@ $servicos = $stmt->fetchAll();
                         <label class="form-label">Título</label>
                         <input type="text" name="titulo" class="form-control" required>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Tipo</label>
                         <select name="tipo" class="form-select" required>
                             <option value="">Selecione o tipo</option>
                             <option value="Adestramento de Animais">Adestramento de Animais</option>
                             <option value="Acompanhamento Escolar">Acompanhamento Escolar</option>
-                            <!-- outras opções... -->
-                        </select>
-                    </div>
+                            <option value="Assistência Técnica em Eletrônicos">Assistência Técnica em Eletrônicos</option>
+                            <option value="Auxiliar Administrativo">Auxiliar Administrativo</option>
+                            <option value="Babá">Babá</option>
+                            <option value="Cabeleireiro">Cabeleireiro</option>
+                            <option value="Comerciante de Alimentos">Comerciante de Alimentos</option>
+                            <option value="Consultoria de Marketing">Consultoria de Marketing</option>
+                            <option value="Consultoria Financeira">Consultoria Financeira</option>
+                            <option value="Consultor de TI">Consultor de TI</option>
+                            <option value="Contador">Contador</option>
+                            <option value="Design Gráfico">Design Gráfico</option>
+                            <option value="Designer de Moda">Designer de Moda</option>
+                            <option value="Design de Interiores">Serviço de Design de Interiores</option>
+                            <option value="Desentupidora">Desentupidora</option>
+                            <option value="Eletricista">Eletricista</option>
+                            <option value="Encanador">Encanador</option>
+                            <option value="Fisioterapia">Fisioterapia</option>
+                            <option value="Fotografia">Fotografia</option>
+                            <option value="Frentista">Frentista</option>
+                            <option value="Garçom">Garçom</option>
+                            <option value="Gestão de Redes Sociais">Gestão de Redes Sociais</option>
+                            <option value="Instituição de Ensino">Instituição de Ensino</option>
+                            <option value="Jardinagem">Jardinagem</option>
+                            <option value="Lavanderia">Lavanderia</option>
+                            <option value="Limpeza de Residências">Limpeza de Residências</option>
+                            <option value="Mecânico de Automóveis">Mecânico de Automóveis</option>
+                            <option value="Mestre de Obras">Mestre de Obras</option>
+                            <option value="Mudanças">Mudanças</option>
+                            <option value="Nutrição">Nutrição</option>
+                            <option value="Organização de Eventos">Organização de Eventos</option>
+                            <option value="Padeiro">Padeiro</option>
+                            <option value="Personal Trainer">Personal Trainer</option>
+                            <option value="Pintura de Paredes">Pintura de Paredes</option>
+                            <option value="Reformas e Reparos">Reformas e Reparos</option>
+                            <option value="Segurança Privada">Segurança Privada</option>
+                            <option value="Serralheiro">Serralheiro</option>
+                            <option value="Serviço de Tradução">Serviço de Tradução</option>
+                            <option value="Serviços Jurídicos">Serviços Jurídicos</option>
+                            <option value="Técnico de Informática">Técnico de Informática</option>
+                            <option value="Técnico de Refrigeração">Técnico de Refrigeração</option>
+                            <option value="Tradutor">Tradutor</option>
+                            <option value="Transporte de Carga">Transporte de Carga</option>
+                            <option value="Vendedor de Produtos">Vendedor de Produtos</option>
+                            <option value="Veterinário">Veterinário</option>
+                            <option value="Web Designer">Web Designer</option>
+                            <option value="Tutor de Idiomas">Tutor de Idiomas</option>
+                    </select>
+
                     <div class="col-md-12">
                         <label class="form-label">Descrição</label>
                         <textarea name="descricao" class="form-control" rows="3" required></textarea>
@@ -272,7 +314,7 @@ $servicos = $stmt->fetchAll();
     </div>
 
     <a href="Servicos.php" class="btn btn-secondary mt-3">Meus Serviços</a>
-    <a href="Tela_autonomo.html" class="btn btn-secondary mt-3">Voltar</a>
+    <a href="Tela_autonomo.php" class="btn btn-secondary mt-3">Voltar</a>
 
 </div>
 

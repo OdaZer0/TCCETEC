@@ -63,12 +63,12 @@ if ($user && password_verify($password, $user['Senha'])) {
 
     // Redireciona conforme o tipo de usuário
     if ($user['tipo'] == 'autonomo') {
-        header("Location: Tela_autonomo.html");
+        header("Location: Tela_autonomo.php");
     }
     elseif($user['tipo'] == 'ADM'){
         header("Location: Tela_Adm.php");
     } else {
-        header("Location: Tela_Inicio.html");
+        header("Location: Tela_Inicio.php");
     }
     exit();
 } else {

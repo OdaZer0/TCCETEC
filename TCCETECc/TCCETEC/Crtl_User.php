@@ -32,7 +32,7 @@ if ($resultado === "Cadastrado com Sucesso!") {
     $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
     $_SESSION['ultima_atividade'] = time();
 
-   header("Location: Tela_Inicio.html");
+   header("Location: Tela_Inicio.php");
 } else {
     echo json_encode(["erro" => $resultado]);
 }

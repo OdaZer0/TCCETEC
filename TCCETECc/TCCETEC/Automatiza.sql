@@ -2,79 +2,87 @@ CREATE DATABASE Automatiza;
 USE Automatiza;
 
 CREATE TABLE Usuario (
-    Id INT(3) PRIMARY KEY auto_increment,
+    Id INT AUTO_INCREMENT PRIMARY KEY,
     CR INT UNIQUE,
     Nome VARCHAR(50),
     Email VARCHAR(60),
-    Senha VARCHAR(250), -- Tamanho alto devido à criptografia
-    Cpf varchar(14) UNIQUE, -- Somente números
-    Cep varchar(9), -- Somente números
+    Senha VARCHAR(250),
+    Cpf VARCHAR(14) UNIQUE,
+    Cep VARCHAR(9),
     Avisos INT(3) DEFAULT 0,
-    Foto BLOB -- Armazena a foto como dados binários
+    Foto BLOB
 );
 
 CREATE TABLE Autonomo (
-    Id INT(3) PRIMARY KEY auto_increment,
+    Id INT AUTO_INCREMENT PRIMARY KEY,
     CR INT UNIQUE,
     Nome VARCHAR(50),
     Email VARCHAR(60),
-    Senha VARCHAR(250), -- Tamanho alto devido à criptografia
-    Cpf varchar(14) UNIQUE, -- Somente números
-    Cep varchar(9), -- Somente números
+    Senha VARCHAR(250),
+    Cpf VARCHAR(14) UNIQUE,
+    Cep VARCHAR(9),
     AreaAtuacao VARCHAR(20),
     NivelFormacao VARCHAR(20),
     Avisos INT(3) DEFAULT 0,
-    Foto BLOB -- Armazena a foto como dados binários
+    Foto BLOB
 );
+
 CREATE TABLE ServicoAutonomo (
-    Id INT AUTO_INCREMENT PRIMARY KEY,  -- Chave primária da própria tabela
-    Titulo VARCHAR(100),
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Titulo VARCHAR(100) NOT NULL,
     Descricao TEXT,
     Tipo VARCHAR(50),
     Valor DECIMAL(10,2),
-    Domicilio BOOLEAN,
-    IdAutonomo INT,                     -- Este sim é uma Foreign Key
-    FOREIGN KEY (IdAutonomo) REFERENCES tb_autonomo(id)
+    Domicilio BOOLEAN DEFAULT 0,
+    DataCadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Status ENUM('pendente', 'confirmado') DEFAULT 'pendente',
+    IdAutonomo INT NOT NULL,
+    IdCliente INT,
+    FOREIGN KEY (IdAutonomo) REFERENCES Autonomo(Id),
+    FOREIGN KEY (IdCliente) REFERENCES Usuario(Id)
+);
+
+CREATE TABLE Avaliacao (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    AutonomoId INT NOT NULL,
+    IdCliente INT NOT NULL,
+    Estrela INT NOT NULL CHECK (Estrela BETWEEN 1 AND 5),
+    Comentario TEXT,
+    DataAvaliacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (AutonomoId) REFERENCES Autonomo(Id),
+    FOREIGN KEY (IdCliente) REFERENCES Usuario(Id)
 );
 
 CREATE TABLE SolicitacoesServico (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     IdServico INT NOT NULL,
     IdUsuario INT NOT NULL,
-    IdAutonomo INT NOT NULL,  -- Agora é referente ao Autônomo da tabela ServicoAutonomo
+    IdAutonomo INT NOT NULL,
     DataSolicitada DATE NOT NULL,
     Status ENUM('pendente', 'aceito', 'recusado') DEFAULT 'pendente',
     FOREIGN KEY (IdServico) REFERENCES ServicoAutonomo(Id),
     FOREIGN KEY (IdUsuario) REFERENCES Usuario(Id),
-    FOREIGN KEY (IdAutonomo) REFERENCES ServicoAutonomo(IdAutonomo)  -- Refere-se à tabela ServicoAutonomo
+    FOREIGN KEY (IdAutonomo) REFERENCES Autonomo(Id)
 );
-
-
 
 CREATE TABLE Administrador (
-    Id INT PRIMARY KEY auto_increment, -- 'INT' sem o tamanho (não é necessário)
+    Id INT AUTO_INCREMENT PRIMARY KEY,
     Nome VARCHAR(50),
     Email VARCHAR(60),
-    Senha VARCHAR(250), -- Tamanho alto devido à criptografia
-    Cpf BIGINT UNIQUE, -- 'BIGINT' sem o tamanho
-    Cep INT, -- 'INT' sem o tamanho
+    Senha VARCHAR(250),
+    Cpf VARCHAR(14) UNIQUE,
+    Cep VARCHAR(9),
     Cargo VARCHAR(20),
-    Foto BLOB -- Armazena a foto como dados binários
+    Foto BLOB
 );
+
 CREATE TABLE ReclamaoDenuncia (
     Id INT AUTO_INCREMENT PRIMARY KEY,
-    Tipo ENUM(
-        'Denúncia de Usuário',
-        'Denúncia de Autônomo',
-        'Denúncia Geral',
-        'Bug',
-        'Sugestão',
-        'Reclamação do Sistema'
-    ) NOT NULL,
+    Tipo ENUM('Denúncia de Usuário', 'Denúncia de Autônomo', 'Denúncia Geral', 'Bug', 'Sugestão', 'Reclamação do Sistema') NOT NULL,
     Descricao TEXT NOT NULL,
     Data TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CR_QuemReclamou INT NOT NULL,
-    CR_Acusado INT, -- Pode ser NULL dependendo do tipo
+    CR_Acusado INT,
     Status ENUM('Pendente', 'Resolvido') DEFAULT 'Pendente'
 );
 
@@ -91,14 +99,18 @@ CREATE TABLE mensagens (
 );
 
 SHOW TABLES;
+drop database Automatiza;
 desc Usuario;
 Select * From Autonomo;
 Select * From Administrador;
 Select* From SolicitacoesServico;
-drop table Usuario;
-Delete from Autonomo Where CR > 1;
+drop table ServicoAutonomo;
+Delete from Usuario Where CR > 1;
 Select * From ReclamaoDenuncia;
 SELECT * FROM ReclamaoDenuncia WHERE Status != 'Resolvido' ORDER BY Data DESC;
+SELECT * FROM ServicoAutonomo where Id =1 ;
+
+
 
 INSERT INTO Usuario (CR, Nome, Email, Senha, Cpf, Cep, Avisos, Foto) VALUES
 (54321, 'João Silva', 'joao.silva@email.com', 'senhaCriptografada1', 12345678901, 12345678, 0, NULL),

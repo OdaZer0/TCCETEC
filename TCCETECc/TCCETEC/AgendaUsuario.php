@@ -151,7 +151,7 @@ $servicos = $stmt->fetchAll();
     <?php endif; ?>
 
     <div class="d-flex justify-content-center mt-4">
-        <a href="Tela_Inicio.html" class="btn btn-primary btn-lg">Voltar</a>
+        <a href="Tela_Inicio.php" class="btn btn-primary btn-lg">Voltar</a>
     </div>
 </div>
 

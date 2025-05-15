@@ -1,3 +1,33 @@
+<?php
+require 'Conexao.php';
+$conexao = Conexao::getConexao();
+
+// Consulta para pegar as avaliações
+$queryAvaliacoes = $conexao->prepare("
+    SELECT 
+        AutonomoId, 
+        COUNT(Id) AS total_avaliacoes, 
+        AVG(Estrela) AS media_avaliacoes
+    FROM Avaliacao
+    GROUP BY AutonomoId
+");
+$queryAvaliacoes->execute();
+$avaliacoes = $queryAvaliacoes->fetchAll();
+
+// Consulta para pegar o total de serviços por mês
+$queryServicosPorMes = $conexao->prepare("
+    SELECT 
+        YEAR(DataCadastro) AS ano,
+        MONTH(DataCadastro) AS mes,
+        COUNT(Id) AS total_servicos
+    FROM ServicoAutonomo
+    GROUP BY YEAR(DataCadastro), MONTH(DataCadastro)
+    ORDER BY ano DESC, mes DESC
+");
+$queryServicosPorMes->execute();
+$servicosPorMes = $queryServicosPorMes->fetchAll();
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -246,33 +276,9 @@
             </div>
         </nav>
 
-        <!-- Notificação Modal -->
-        <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="notificationModalLabel">Notificações</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                    </div>
-                    <div class="modal-body">
-                        <ul>
-                            <li>Solicitação de serviço recebida</li>
-                            <li>Serviço agendado para amanhã</li>
-                            <li>Novo feedback recebido</li>
-                            <li>Pagamento confirmado</li>
-                            <li>Cliente cancelou o serviço</li>
-                        </ul>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <h1>Bem-vindo de volta, Autônomo!</h1>
 
-        <!-- Gráfico de Desempenho -->
+        <!-- Gráficos -->
         <div class="row">
             <div class="col-md-6">
                 <div class="card card-custom">
@@ -298,43 +304,6 @@
                         <div class="mt-3">
                             <p><strong>Avaliação Total:</strong> <span id="totalRating">4.2</span> / 5</p>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Cartões de Navegação -->
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card card-custom">
-                    <div class="card-header">
-                        Meus Serviços
-                    </div>
-                    <div class="card-body">
-                        <p>Veja os serviços que você oferece e edite as informações quando necessário.</p>
-                        <a href="MeusServicos.php" class="btn btn-outline-info">Gerenciar Serviços</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card card-custom">
-                    <div class="card-header">
-                        Solicitações
-                    </div>
-                    <div class="card-body">
-                        <p>Acompanhe as solicitações recebidas e aceite ou recuse.</p>
-                        <a href="SolicitacoesAutonomo.php" class="btn btn-outline-info">Ver Solicitações</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card card-custom">
-                    <div class="card-header">
-                        Minha Agenda
-                    </div>
-                    <div class="card-body">
-                        <p>Confira todos os serviços agendados e organize seu dia.</p>
-                        <a href="AgendaAutonomo.php" class="btn btn-outline-info">Ver Agenda</a>
                     </div>
                 </div>
             </div>
@@ -389,75 +358,109 @@
 
         <!-- Botões de Ação -->
         <div class="row">
-            <div class="col-md-12">
-                <button class="btn-action" onclick="window.location.href='NovoServico.php'">Adicionar Novo Serviço</button>
+            <div class="col-md-6">
+                <button class="btn-action">Criar Novo Serviço</button>
+            </div>
+            <div class="col-md-6">
+                <button class="btn-action" onclick="window.location.href='MeusServicos.php'">Ver Solicitações</button>
+            </div>
+
+        </div>
+
+        <!-- Modal de Notificações -->
+        <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="notificationModalLabel">Notificações</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Você tem 5 novas notificações.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Rodapé -->
-    <footer class="footer">
-        <p>&copy; 2025 Autônomo App. Todos os direitos reservados.</p>
-    </footer>
-
+    <!-- Script do Chart.js -->
     <script>
-        // Gráfico de desempenho utilizando Chart.js
-        var ctx = document.getElementById('performanceChart').getContext('2d');
-        var performanceChart = new Chart(ctx, {
+        var ctxPerformance = document.getElementById('performanceChart').getContext('2d');
+        var ctxRatings = document.getElementById('ratingsChart').getContext('2d');
+
+        // Gráfico de Desempenho de Serviços (por mês)
+        var performanceChart = new Chart(ctxPerformance, {
+            type: 'line',
+            data: {
+                labels: <?php echo json_encode(array_map(function($row) { return $row['ano'] . '-' . $row['mes']; }, $servicosPorMes)); ?>,
+                datasets: [{
+                    label: 'Serviços Realizados',
+                    data: <?php echo json_encode(array_map(function($row) { return $row['total_servicos']; }, $servicosPorMes)); ?>,
+                    borderColor: 'rgb(75, 192, 192)',
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Mês-Ano'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Total de Serviços'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfico de Avaliações
+        var ratingsChart = new Chart(ctxRatings, {
             type: 'bar',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                labels: ['1 estrela', '2 estrelas', '3 estrelas', '4 estrelas', '5 estrelas'],
                 datasets: [{
-                    label: 'Serviços Concluídos',
-                    data: [10, 12, 15, 10, 20, 30],
-                    backgroundColor: 'rgba(0, 123, 255, 0.7)',
-                    borderColor: 'rgba(0, 123, 255, 1)',
+                    label: 'Avaliações',
+                    data: <?php 
+                        // Contar o número de avaliações por estrela
+                        $avaliaçõesPorEstrela = [0, 0, 0, 0, 0];
+                        foreach ($avaliacoes as $avaliacao) {
+                            $avaliaçõesPorEstrela[$avaliacao['Estrela'] - 1]++;
+                        }
+                        echo json_encode($avaliaçõesPorEstrela);
+                    ?>,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgb(75, 192, 192)',
                     borderWidth: 1
                 }]
             },
             options: {
                 responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        enabled: true
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Número de Avaliações'
+                        }
                     }
                 }
             }
         });
 
-        // Gráfico de pizza para as avaliações
-        var ctx2 = document.getElementById('ratingsChart').getContext('2d');
-        var ratingsChart = new Chart(ctx2, {
-            type: 'pie',
-            data: {
-                labels: ['1 Estrela', '2 Estrelas', '3 Estrelas', '4 Estrelas', '5 Estrelas'],
-                datasets: [{
-                    data: [5, 10, 15, 30, 40],
-                    backgroundColor: ['#ff6347', '#ff9f43', '#ffcd39', '#4caf50', '#007bff'],
-                    borderColor: ['#ff6347', '#ff9f43', '#ffcd39', '#4caf50', '#007bff'],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        enabled: true
-                    }
-                }
-            }
-        });
-
-        // Atualiza a avaliação total
-        var totalRating = 4.2; // Pode ser dinamicamente calculado
-        document.getElementById('totalRating').textContent = totalRating;
+        // Atualizar o total de avaliação na tela
+        document.getElementById('totalRating').innerText = <?php 
+            $mediaAvaliacoes = array_reduce($avaliacoes, fn($carry, $item) => $carry + $item['media_avaliacoes'], 0) / count($avaliacoes);
+            echo json_encode(round($mediaAvaliacoes, 2));
+        ?>;
     </script>
 </body>
-
 </html>

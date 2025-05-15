@@ -1,8 +1,22 @@
 <?php
+session_start();
 require 'Conexao.php';
 $conexao = Conexao::getConexao();
 
-$stmt = $conexao->query("SELECT * FROM ServicoAutonomo");
+// Verifique se o usuário está logado e se o ID do autônomo está disponível
+if (!isset($_SESSION['usuario_id'])) {
+    // Caso o usuário não esteja logado, redirecione para o login
+    header("Location: login.php");
+    exit();
+}
+
+$autonomoId = $_SESSION['usuario_id']; // ID do autônomo logado
+
+// Modifique a consulta SQL para filtrar os serviços pelo ID do autônomo
+$stmt = $conexao->prepare("SELECT * FROM ServicoAutonomo WHERE IdAutonomo = :idAutonomo");
+$stmt->bindParam(':idAutonomo', $autonomoId, PDO::PARAM_INT);
+$stmt->execute();
+
 $servicos = $stmt->fetchAll();
 ?>
 
@@ -65,7 +79,7 @@ $servicos = $stmt->fetchAll();
         <?php endforeach; ?>
     </div>
 </div>
-<a href="Tela_autonomo.html" class="btn btn-secondary mt-3">Voltar</a>
+<a href="Tela_autonomo.php" class="btn btn-secondary mt-3">Voltar</a>
 
 </body>
 </html>
