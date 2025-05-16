@@ -141,7 +141,7 @@
             <!-- Dropdown Menu -->
             <div class="dropdown-menu">
                 <a href="Telainiciocadastro.php">Cadastro e Login</a>
-                <a href="#">Sair</a>
+                <a href="logout.php">Sair</a>
             </div>
         </div>
     </header>

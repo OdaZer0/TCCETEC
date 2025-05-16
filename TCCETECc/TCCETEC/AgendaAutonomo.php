@@ -117,58 +117,58 @@ $servicos = $stmt->fetchAll();
                             <p><strong>Contratante:</strong> <?= htmlspecialchars($servico['NomeUsuario']) ?></p>
                             <p><strong>CR do Usuário:</strong> <?= htmlspecialchars($servico['CR']) ?></p>
                             <div class="d-flex justify-content-between">
-                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editarModal<?= $servico['Id'] ?>"><i class="fas fa-edit"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#excluirModal<?= $servico['Id'] ?>"><i class="fas fa-trash"></i> Excluir</button>
+                                <!-- Botão Cancelar -->
+                                <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#cancelarModal<?= $servico['Id'] ?>"><i class="fas fa-ban"></i> Cancelar</button>
+
+                                <!-- Botão Concluído (só habilitado no dia do serviço) -->
+                                <?php if (date('Y-m-d') == date('Y-m-d', strtotime($servico['DataSolicitada']))): ?>
+                                    <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#concluirModal<?= $servico['Id'] ?>"><i class="fas fa-check"></i> Concluído</button>
+                                <?php else: ?>
+                                    <button class="btn btn-secondary btn-sm" disabled><i class="fas fa-check"></i> Concluído</button>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Modal Editar -->
-                <div class="modal fade" id="editarModal<?= $servico['Id'] ?>" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+                <!-- Modal Cancelar -->
+                <div class="modal fade" id="cancelarModal<?= $servico['Id'] ?>" tabindex="-1" aria-labelledby="cancelarModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="editarModalLabel">Editar Compromisso</h5>
+                                <h5 class="modal-title" id="cancelarModalLabel">Cancelar Compromisso</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                             </div>
-                            <form action="editar_servico.php" method="POST">
+                            <form action="cancelar_servico.php" method="POST">
                                 <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="titulo" class="form-label">Título</label>
-                                        <input type="text" class="form-control" id="titulo" name="titulo" value="<?= htmlspecialchars($servico['Titulo']) ?>" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="data" class="form-label">Data</label>
-                                        <input type="date" class="form-control" id="data" name="data" value="<?= date('Y-m-d', strtotime($servico['DataSolicitada'])) ?>" required>
-                                    </div>
+                                    <p>Você tem certeza que deseja cancelar este compromisso?</p>
                                     <input type="hidden" name="id" value="<?= $servico['Id'] ?>">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="submit" class="btn btn-primary">Salvar alterações</button>
+                                    <button type="submit" class="btn btn-danger">Cancelar</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
 
-                <!-- Modal Excluir -->
-                <div class="modal fade" id="excluirModal<?= $servico['Id'] ?>" tabindex="-1" aria-labelledby="excluirModalLabel" aria-hidden="true">
+                <!-- Modal Concluir -->
+                <div class="modal fade" id="concluirModal<?= $servico['Id'] ?>" tabindex="-1" aria-labelledby="concluirModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="excluirModalLabel">Excluir Compromisso</h5>
+                                <h5 class="modal-title" id="concluirModalLabel">Concluir Compromisso</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                             </div>
-                            <form action="excluir_servico.php" method="POST">
+                            <form action="concluir_servico.php" method="POST">
                                 <div class="modal-body">
-                                    <p>Você tem certeza que deseja excluir este compromisso?</p>
+                                    <p>Você tem certeza que deseja concluir este compromisso?</p>
                                     <input type="hidden" name="id" value="<?= $servico['Id'] ?>">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="submit" class="btn btn-danger">Excluir</button>
+                                    <button type="submit" class="btn btn-success">Concluir</button>
                                 </div>
                             </form>
                         </div>
@@ -179,12 +179,11 @@ $servicos = $stmt->fetchAll();
         </div>
     <?php endif; ?>
 
-    <div class="d-flex justify-content-center mt-4">
-        <a href="Tela_autonomo.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voltar</a>
+    <div class="d-flex justify-content-center mt-5">
+        <a href="tela_autonomo.php" class="btn btn-primary">Voltar</a>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

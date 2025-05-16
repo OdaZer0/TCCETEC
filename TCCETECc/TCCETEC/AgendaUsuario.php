@@ -12,11 +12,11 @@ $usuarioId = $_SESSION['usuario_id'];
 $pdo = Conexao::getConexao();
 
 $stmt = $pdo->prepare("
-    SELECT ss.*, sa.Titulo, sa.Tipo, a.Nome AS NomeAutonomo
+    SELECT ss.*, sa.Titulo, sa.Tipo, a.Nome AS NomeAutonomo, a.CR AS CRAutonomo
     FROM SolicitacoesServico ss
     JOIN ServicoAutonomo sa ON ss.IdServico = sa.Id
     JOIN Autonomo a ON ss.IdAutonomo = a.Id
-    WHERE ss.IdUsuario = :id AND ss.Status = 'aceito'
+    WHERE ss.IdUsuario = :id AND ss.Status IN ('aceito', 'concluído', 'cancelado')
     ORDER BY ss.DataSolicitada ASC
 ");
 $stmt->execute([':id' => $usuarioId]);
@@ -29,133 +29,137 @@ $servicos = $stmt->fetchAll();
     <meta charset="UTF-8">
     <title>Minha Agenda</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f4f7fb;
-            margin: 0;
-            padding: 0;
         }
-
         .container {
-            max-width: 1200px;
             margin-top: 50px;
         }
-
-        h2 {
-            font-size: 2rem;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
         .card-servico {
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             background-color: #fff;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease;
         }
-
         .card-servico:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
         }
-
         .card-header {
             background-color: #3498db;
             color: white;
             padding: 15px;
             border-radius: 12px 12px 0 0;
-            font-size: 1.1rem;
             font-weight: 600;
         }
-
         .card-body {
             padding: 20px;
-        }
-
-        .card-body h5 {
-            font-weight: 600;
-            color: #34495e;
-            font-size: 1.25rem;
-        }
-
-        .card-body p {
-            font-size: 1rem;
-            color: #7f8c8d;
-            margin-bottom: 8px;
-        }
-
-        .btn-primary {
-            background-color: #3498db;
-            border-color: #3498db;
-            padding: 10px 30px;
-            font-size: 1.1rem;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background-color: #2980b9;
-            border-color: #2980b9;
-        }
-
-        .alert {
-            font-size: 1.1rem;
-            font-weight: 600;
-            text-align: center;
-        }
-
-        .row {
-            margin-top: 30px;
-        }
-
-        .col-md-6 {
-            display: flex;
-            justify-content: center;
-        }
-
-        .d-flex.justify-content-center {
-            margin-top: 30px;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2 class="text-center mb-4">Meus Serviços Agendados</h2>
+    <h2 class="text-center mb-4">Meus Serviços</h2>
 
     <?php if (empty($servicos)): ?>
-        <div class="alert alert-info" role="alert">
-            Você ainda não contratou nenhum serviço aceito.
-        </div>
+        <div class="alert alert-info text-center">Você ainda não possui serviços agendados.</div>
     <?php else: ?>
         <div class="row g-4">
             <?php foreach ($servicos as $servico): ?>
                 <div class="col-md-6 col-lg-4">
-                    <div class="card card-servico p-4 d-flex flex-column">
+                    <div class="card card-servico">
                         <div class="card-header">
-                            <i class="fas fa-calendar-check"></i> Serviço Agendado
+                            <i class="fas fa-calendar-check"></i> <?= ucfirst($servico['Status']) ?>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($servico['Titulo']) ?></h5>
+                            <h5><?= htmlspecialchars($servico['Titulo']) ?></h5>
                             <p><strong>Tipo:</strong> <?= htmlspecialchars($servico['Tipo']) ?></p>
                             <p><strong>Data:</strong> <?= date('d/m/Y', strtotime($servico['DataSolicitada'])) ?></p>
                             <p><strong>Prestador:</strong> <?= htmlspecialchars($servico['NomeAutonomo']) ?></p>
+
+                            <?php if (in_array($servico['Status'], ['concluído', 'cancelado'])): ?>
+                                <div class="d-flex gap-2 mt-3">
+                                    <!-- Avaliação -->
+                                    <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#avaliacaoModal<?= $servico['Id'] ?>">Avaliar</button>
+                                    <!-- Reclamação -->
+                                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#reclamacaoModal<?= $servico['Id'] ?>">Reclamar</button>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
+
+                <!-- Modal Avaliação -->
+                <div class="modal fade" id="avaliacaoModal<?= $servico['Id'] ?>" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form action="salvar_avaliacao.php" method="POST" class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title">Avaliação do Serviço</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <input type="hidden" name="autonomo_id" value="<?= $servico['IdAutonomo'] ?>">
+                                <div class="stars mb-3">
+                                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                                        <span class="star fs-3 text-secondary" data-value="<?= $i ?>">★</span>
+                                    <?php endfor; ?>
+                                </div>
+                                <input type="hidden" name="estrelas" id="estrelas<?= $servico['Id'] ?>" value="0">
+                                <textarea name="comentario" class="form-control" placeholder="Comentário..."></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Enviar Avaliação</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Modal Reclamação -->
+                <div class="modal fade" id="reclamacaoModal<?= $servico['Id'] ?>" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form action="reclamacao.php" method="POST" class="modal-content">
+                            <div class="modal-header bg-danger text-white">
+                                <h5 class="modal-title">Reclamar do Serviço</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" name="tipo" value="Reclamação do Sistema">
+                                <input type="hidden" name="cr_acusado" value="<?= $servico['CRAutonomo'] ?>">
+                                <textarea name="descricao" class="form-control" placeholder="Descreva sua reclamação..." required></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-danger">Enviar Reclamação</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <script>
+                    document.querySelectorAll('#avaliacaoModal<?= $servico['Id'] ?> .star').forEach(star => {
+                        star.addEventListener('click', function () {
+                            let value = this.getAttribute('data-value');
+                            document.getElementById('estrelas<?= $servico['Id'] ?>').value = value;
+                            let stars = document.querySelectorAll('#avaliacaoModal<?= $servico['Id'] ?> .star');
+                            stars.forEach((s, i) => {
+                                s.classList.remove('text-warning');
+                                if (i < value) s.classList.add('text-warning');
+                            });
+                        });
+                    });
+                </script>
+
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
 
-    <div class="d-flex justify-content-center mt-4">
-        <a href="Tela_Inicio.php" class="btn btn-primary btn-lg">Voltar</a>
+    <div class="text-center mt-4">
+        <a href="Tela_Inicio.php" class="btn btn-primary">Voltar</a>
     </div>
 </div>
 
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
