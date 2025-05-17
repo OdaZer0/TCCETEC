@@ -2,15 +2,18 @@
 session_start();
 require 'conexao.php';
 
+// Verificar se o usuário está logado
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: login.php");
     exit();
 }
 
 $usuarioId = $_SESSION['usuario_id'];
+$crUsuario = isset($_SESSION['cr']) ? $_SESSION['cr'] : ''; // Verificação para evitar erro de CR não definido
 
 $pdo = Conexao::getConexao();
 
+// Buscar serviços do usuário
 $stmt = $pdo->prepare("
     SELECT ss.*, sa.Titulo, sa.Tipo, a.Nome AS NomeAutonomo, a.CR AS CRAutonomo
     FROM SolicitacoesServico ss
@@ -102,6 +105,8 @@ $servicos = $stmt->fetchAll();
                             </div>
                             <div class="modal-body text-center">
                                 <input type="hidden" name="autonomo_id" value="<?= $servico['IdAutonomo'] ?>">
+                                <input type="hidden" name="cliente_id" value="<?= $usuarioId ?>">
+
                                 <div class="stars mb-3">
                                     <?php for ($i = 1; $i <= 5; $i++): ?>
                                         <span class="star fs-3 text-secondary" data-value="<?= $i ?>">★</span>
@@ -117,7 +122,6 @@ $servicos = $stmt->fetchAll();
                     </div>
                 </div>
 
-                <!-- Modal Reclamação -->
                 <div class="modal fade" id="reclamacaoModal<?= $servico['Id'] ?>" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog">
                         <form action="reclamacao.php" method="POST" class="modal-content">
@@ -126,9 +130,47 @@ $servicos = $stmt->fetchAll();
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
                             <div class="modal-body">
-                                <input type="hidden" name="tipo" value="Reclamação do Sistema">
-                                <input type="hidden" name="cr_acusado" value="<?= $servico['CRAutonomo'] ?>">
-                                <textarea name="descricao" class="form-control" placeholder="Descreva sua reclamação..." required></textarea>
+                                <!-- Tipo da Reclamação -->
+                                <div class="mb-3">
+                                    <label for="tipoReclamacao" class="form-label">Tipo</label>
+                                    <select class="form-select" name="tipo" id="tipoReclamacao">
+                                        <option value="Denúncia de Usuário">Denúncia de Usuário</option>
+                                        <option value="Denúncia de Autônomo">Denúncia de Autônomo</option>
+                                        <option value="Denúncia Geral">Denúncia Geral</option>
+                                        <option value="Bug">Bug</option>
+                                        <option value="Sugestão">Sugestão</option>
+                                        <option value="Reclamação do Sistema">Reclamação do Sistema</option>
+                                    </select>
+                                </div>
+
+                                <!-- CR do Acusado (Autônomo) -->
+                                <div class="mb-3">
+                                    <label for="crAcusado" class="form-label">CR do Acusado (opcional)</label>
+                                    <input type="number" class="form-control" name="cr_acusado" value="<?= $servico['CRAutonomo'] ?>" id="crAcusado" readonly>
+                                </div>
+
+                                <!-- Descrição da Reclamação -->
+                                <div class="mb-3">
+                                    <label for="descricaoReclamacao" class="form-label">Descrição</label>
+                                    <textarea class="form-control" name="descricao" id="descricaoReclamacao" placeholder="Descreva sua reclamação..." required></textarea>
+                                </div>
+
+                                <!-- CR do Reclamante (Usuário) -->
+                                <?php if (isset($_SESSION['usuario_id'])): ?>
+                                    <?php 
+                                    // Coleta o CR do usuário diretamente no banco de dados
+                                    $userId = $_SESSION['usuario_id'];
+                                    $stmt = $pdo->prepare("SELECT CR FROM Usuario WHERE Id = :id LIMIT 1");
+                                    $stmt->bindParam(':id', $userId);
+                                    $stmt->execute();
+                                    $usuario = $stmt->fetch();
+                                    ?>
+                                    <!-- Agora o CR do usuário está disponível -->
+                                    <input type="hidden" name="cr_reclamante" value="<?= $usuario['CR'] ?>">
+                                <?php else: ?>
+                                    <div class="alert alert-danger">Erro: CR do usuário não encontrado na sessão.</div>
+                                <?php endif; ?>
+
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-danger">Enviar Reclamação</button>
@@ -136,6 +178,8 @@ $servicos = $stmt->fetchAll();
                         </form>
                     </div>
                 </div>
+
+
 
                 <script>
                     document.querySelectorAll('#avaliacaoModal<?= $servico['Id'] ?> .star').forEach(star => {

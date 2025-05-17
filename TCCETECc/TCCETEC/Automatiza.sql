@@ -105,12 +105,14 @@ drop database Automatiza;
 desc Usuario;
 Select * From Autonomo;
 Select * From Administrador;
+Select * From Usuario;
 Select* From SolicitacoesServico;
 drop table ServicoAutonomo;
 Delete from Usuario Where CR > 1;
+Select * From Avaliacao;
 Select * From ReclamaoDenuncia;
 SELECT * FROM ReclamaoDenuncia WHERE Status != 'Resolvido' ORDER BY Data DESC;
-SELECT * FROM ServicoAutonomo where Id =1 ;
+SELECT * FROM ServicoAutonomo;
 
 
 

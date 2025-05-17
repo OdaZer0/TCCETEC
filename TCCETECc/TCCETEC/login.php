@@ -20,26 +20,25 @@ $_SESSION['ultima_atividade'] = time();
 include "conexao.php";
 $pdo = Conexao::getConexao(); // ← Adiciona esta linha
 
-
 // Receber os dados do formulário de login
 $username = filter_input(INPUT_POST, 'usuario');
 $password = filter_input(INPUT_POST, 'senha');
 
-// Tentar buscar o usuário na tabela 'Usuarios'
-$query = $pdo->prepare("SELECT Id, Email, Senha, 'usuario' AS tipo FROM Usuario WHERE Email = :Email LIMIT 1");
+// Tentar buscar o usuário na tabela 'Usuarios' (Agora com o CR do usuário)
+$query = $pdo->prepare("SELECT Id, Email, Senha, CR, 'usuario' AS tipo FROM Usuario WHERE Email = :Email LIMIT 1");
 $query->bindParam(':Email', $username);
 $query->execute();
 $user = $query->fetch();
 
-// Se não encontrar, tenta na tabela 'Autonomos'
+// Se não encontrar, tenta na tabela 'Autonomos' (Agora com o CR do autônomo)
 if (!$user) {
-    $query = $pdo->prepare("SELECT Id, Email, Senha, 'autonomo' AS tipo FROM Autonomo WHERE Email = :Email LIMIT 1");
+    $query = $pdo->prepare("SELECT Id, Email, Senha, CR, 'autonomo' AS tipo FROM Autonomo WHERE Email = :Email LIMIT 1");
     $query->bindParam(':Email', $username);
     $query->execute();
     $user = $query->fetch();
 }
 
-// Se não encontrar, tenta na tabela 'Administradores'
+// Se não encontrar, tenta na tabela 'Administradores' (Sem CR, pois não existe para admins)
 if (!$user) {
     $query = $pdo->prepare("SELECT Id, Email, Senha, 'ADM' AS tipo FROM Administrador WHERE Email = :Email LIMIT 1");
     $query->bindParam(':Email', $username);
@@ -47,25 +46,26 @@ if (!$user) {
     $user = $query->fetch();
 }
 
-// DEPURAÇÃO – VERIFICANDO O QUE VEIO DO BANCO
-//echo "<pre>";
-//var_dump($user);
-//echo "</pre>";
-//exit();
-
 // Verifica se as credenciais são válidas
 if ($user && password_verify($password, $user['Senha'])) {
     // Se a senha for válida, cria a sessão
-    $_SESSION['usuario_id'] = $user['Id'];
-    $_SESSION['user_email'] = $user['Email'];
-    $_SESSION['usuario_tipo'] = $user['tipo'];  // Definindo corretamente o tipo de usuário
-    $_SESSION['ultima_atividade'] = time(); // Registra o momento da última atividade
+    $_SESSION['usuario_id'] = $user['Id'];    // Armazenando o ID do usuário na sessão
+    $_SESSION['user_email'] = $user['Email'];  // Armazenando o e-mail na sessão
+    $_SESSION['usuario_tipo'] = $user['tipo']; // Armazenando o tipo de usuário na sessão
+    $_SESSION['ultima_atividade'] = time();    // Registra o momento da última atividade
+
+    // Verificar se o CR foi retornado e armazená-lo na sessão
+    if (isset($user['CR'])) {
+        $_SESSION['cr'] = $user['CR'];  // Armazenando o CR do usuário na sessão
+    } else {
+        // Para Administradores, o CR não existe, então definimos como null
+        $_SESSION['cr'] = null;
+    }
 
     // Redireciona conforme o tipo de usuário
     if ($user['tipo'] == 'autonomo') {
         header("Location: Tela_autonomo.php");
-    }
-    elseif($user['tipo'] == 'ADM'){
+    } elseif ($user['tipo'] == 'ADM') {
         header("Location: Tela_Adm.php");
     } else {
         header("Location: Tela_Inicio.php");

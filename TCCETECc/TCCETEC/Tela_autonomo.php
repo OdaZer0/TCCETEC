@@ -6,8 +6,11 @@ $conexao = Conexao::getConexao();
 $queryAvaliacoes = $conexao->prepare("
     SELECT 
         AutonomoId, 
-        COUNT(Id) AS total_avaliacoes, 
-        AVG(Estrela) AS media_avaliacoes
+        SUM(CASE WHEN Estrela = 1 THEN 1 ELSE 0 END) AS estrela_1,
+        SUM(CASE WHEN Estrela = 2 THEN 1 ELSE 0 END) AS estrela_2,
+        SUM(CASE WHEN Estrela = 3 THEN 1 ELSE 0 END) AS estrela_3,
+        SUM(CASE WHEN Estrela = 4 THEN 1 ELSE 0 END) AS estrela_4,
+        SUM(CASE WHEN Estrela = 5 THEN 1 ELSE 0 END) AS estrela_5
     FROM Avaliacao
     GROUP BY AutonomoId
 ");
@@ -364,7 +367,6 @@ $servicosPorMes = $queryServicosPorMes->fetchAll();
             <div class="col-md-6">
                 <button class="btn-action" onclick="window.location.href='MeusServicos.php'">Ver Solicitações</button>
             </div>
-
         </div>
 
         <!-- Modal de Notificações -->
@@ -393,14 +395,16 @@ $servicosPorMes = $queryServicosPorMes->fetchAll();
 
         // Gráfico de Desempenho de Serviços (por mês)
         var performanceChart = new Chart(ctxPerformance, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: <?php echo json_encode(array_map(function($row) { return $row['ano'] . '-' . $row['mes']; }, $servicosPorMes)); ?>,
                 datasets: [{
                     label: 'Serviços Realizados',
                     data: <?php echo json_encode(array_map(function($row) { return $row['total_servicos']; }, $servicosPorMes)); ?>,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
                     borderColor: 'rgb(75, 192, 192)',
-                    fill: false
+                    borderWidth: 1,
+                    barThickness: 25
                 }]
             },
             options: {
@@ -416,51 +420,42 @@ $servicosPorMes = $queryServicosPorMes->fetchAll();
                         title: {
                             display: true,
                             text: 'Total de Serviços'
-                        }
+                        },
+                        beginAtZero: true
                     }
                 }
             }
         });
 
-        // Gráfico de Avaliações
-        var ratingsChart = new Chart(ctxRatings, {
-            type: 'bar',
+        // Gráfico de Avaliações (Gráfico de Pizza)
+        const ratingsChart = new Chart(ctxRatings, {
+            type: 'pie',
             data: {
                 labels: ['1 estrela', '2 estrelas', '3 estrelas', '4 estrelas', '5 estrelas'],
                 datasets: [{
-                    label: 'Avaliações',
-                    data: <?php 
-                        // Contar o número de avaliações por estrela
-                        $avaliaçõesPorEstrela = [0, 0, 0, 0, 0];
-                        foreach ($avaliacoes as $avaliacao) {
-                            $avaliaçõesPorEstrela[$avaliacao['Estrela'] - 1]++;
-                        }
-                        echo json_encode($avaliaçõesPorEstrela);
-                    ?>,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgb(75, 192, 192)',
+                    data: <?php echo json_encode(array(
+                        $avaliacoes[0]['estrela_1'], 
+                        $avaliacoes[0]['estrela_2'], 
+                        $avaliacoes[0]['estrela_3'], 
+                        $avaliacoes[0]['estrela_4'], 
+                        $avaliacoes[0]['estrela_5']
+                    )); ?>,
+                    backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)', 'rgba(75, 192, 192, 0.6)', 'rgba(153, 102, 255, 0.6)'],
+                    borderColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 206, 86)', 'rgb(75, 192, 192)', 'rgb(153, 102, 255)'],
                     borderWidth: 1
                 }]
             },
             options: {
                 responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Número de Avaliações'
-                        }
+                plugins: {
+                    legend: {
+                        position: 'top'
                     }
                 }
             }
         });
-
-        // Atualizar o total de avaliação na tela
-        document.getElementById('totalRating').innerText = <?php 
-            $mediaAvaliacoes = array_reduce($avaliacoes, fn($carry, $item) => $carry + $item['media_avaliacoes'], 0) / count($avaliacoes);
-            echo json_encode(round($mediaAvaliacoes, 2));
-        ?>;
     </script>
 </body>
+
 </html>
+
