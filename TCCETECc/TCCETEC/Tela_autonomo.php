@@ -264,7 +264,7 @@ $servicosPorMes = $queryServicosPorMes->fetchAll();
         <a href="MeusServicos.php">Meus Serviços</a>
         <a href="SolicitacoesAutonomo.php">Solicitações</a>
         <a href="AgendaAutonomo.php">Agenda</a>
-        <a href="HistoricoAutonomo.php">Histórico de Serviços</a>
+        <a href="reclamacao_tela.php">Denúncia</a>
         <a href="ConfiguraçõesAutonomo.php">Configurações</a>
         <a href="logout.php">Sair</a>
     </div>

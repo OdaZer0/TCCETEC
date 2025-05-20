@@ -16,8 +16,18 @@ if (!isset($_SESSION['cr'])) {
 $usuarioId = $_SESSION['usuario_id']; // ID do usuário
 $crReclamante = $_SESSION['cr']; // CR do reclamante (Agora sendo coletado corretamente)
 $tipoReclamacao = $_POST['tipo']; // Tipo de reclamação
-$crAcusado = $_POST['cr_acusado']; // CR do acusado
+$crAcusado = isset($_POST['cr_acusado']) ? $_POST['cr_acusado'] : null; // CR do acusado
 $descricao = $_POST['descricao']; // Descrição da reclamação
+
+// Verificar se o CR do acusado foi fornecido
+if (empty($crAcusado)) {
+    die("Erro: O CR do acusado não foi fornecido.");
+}
+
+// Verificar se a descrição da reclamação não está vazia
+if (empty($descricao)) {
+    die("Erro: A descrição da reclamação não pode estar vazia.");
+}
 
 // Conectar ao banco de dados
 $pdo = Conexao::getConexao();
@@ -35,7 +45,7 @@ $stmt->execute([
     ':descricao' => $descricao
 ]);
 
-// Redirecionar para a agenda ou onde for necessário
-header("Location: AgendaUsuario.php");
+// Redirecionar para a página de sucesso ou onde for necessário
+header("Location: reclamacao_tela.php");
 exit();
 ?>
