@@ -27,6 +27,110 @@ $crUsuario = $usuario['CR'] ?? '';
     <title>Reclamar do Serviço</title>
     <link rel="stylesheet" href="estilos.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .form {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-font2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: rgb(255, 145, 0);
+            margin-bottom: 30px;
+        }
+
+        .custom-font3 {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #343a40;
+        }
+
+        .input-group1 {
+            margin-bottom: 20px;
+        }
+
+        .input-group1 label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #343a40;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: rgb(255, 145, 0);
+            box-shadow: 0 0 0 0.25rem rgba(255, 145, 0, 0.25);
+        }
+
+        select.form-select {
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 1rem;
+            border: 1px solid #dee2e6;
+        }
+
+        select.form-select:focus {
+            border-color: rgb(255, 145, 0);
+            box-shadow: 0 0 0 0.25rem rgba(255, 145, 0, 0.25);
+        }
+
+        .btn-danger {
+            background-color: rgb(255, 145, 0);
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 25px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            background-color: #ff8c00;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 25px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .d-flex {
+            justify-content: space-between;
+        }
+
+        @media (max-width: 768px) {
+            .form {
+                padding: 20px;
+            }
+
+            .custom-font2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -65,7 +169,7 @@ $crUsuario = $usuario['CR'] ?? '';
         </div>
 
         <!-- Botões -->
-        <div class="d-flex justify-content-between mt-4">
+        <div class="d-flex mt-4">
             <input type="submit" value="Enviar Reclamação" class="btn btn-danger">
             <button type="button" class="btn btn-secondary" onclick="voltar()">Voltar</button>
         </div>

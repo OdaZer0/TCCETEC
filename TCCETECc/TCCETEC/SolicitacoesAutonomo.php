@@ -25,25 +25,88 @@ $solicitacoes = $stmt->fetchAll();
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitações Pendentes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        body {
+            background-color: #f7f8fc;
+            font-family: 'Arial', sans-serif;
+        }
         .solicitacao-card {
             border: none;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            background-color: #ffffff;
-            transition: transform 0.2s;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            transition: transform 0.2s ease-in-out;
         }
         .solicitacao-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-5px);
+        }
+        .btn-aceitar, .btn-recusar {
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 30px;
+            width: 48%;
+        }
+        .btn-aceitar {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+        .btn-aceitar:hover {
+            background-color: #218838;
+        }
+        .btn-recusar {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+        }
+        .btn-recusar:hover {
+            background-color: #c82333;
+        }
+        .alert-info {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .card-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .card-body p {
+            font-size: 0.9rem;
+        }
+        .mt-auto {
+            margin-top: auto;
+        }
+        .container {
+            max-width: 1100px;
+        }
+        .btn-voltar {
+            background-color: #6c757d;
+            color: white;
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-weight: 600;
+        }
+        .btn-voltar:hover {
+            background-color: #5a6268;
+        }
+        @media (max-width: 768px) {
+            .solicitacao-card {
+                margin-bottom: 20px;
+            }
+            .btn-aceitar, .btn-recusar {
+                font-size: 0.9rem;
+                padding: 8px 18px;
+            }
         }
     </style>
 </head>
-<body class="bg-light">
+<body>
 
 <div class="container py-5">
-    <h2 class="mb-4 text-center">Solicitações Pendentes</h2>
+    <h2 class="mb-4 text-center text-dark">Solicitações Pendentes</h2>
 
     <?php if (empty($solicitacoes)): ?>
         <div class="alert alert-info text-center">Nenhuma solicitação pendente no momento.</div>
@@ -59,8 +122,8 @@ $solicitacoes = $stmt->fetchAll();
                             <strong>CR:</strong> <?= htmlspecialchars($sol['CR']) ?>
                         </p>
                         <div class="mt-auto d-flex justify-content-between">
-                            <a href="responder_solicitacao.php?id=<?= $sol['Id'] ?>&acao=aceitar" class="btn btn-success btn-sm">Aceitar</a>
-                            <a href="responder_solicitacao.php?id=<?= $sol['Id'] ?>&acao=recusar" class="btn btn-danger btn-sm">Recusar</a>
+                            <a href="responder_solicitacao.php?id=<?= $sol['Id'] ?>&acao=aceitar" class="btn btn-aceitar">Aceitar</a>
+                            <a href="responder_solicitacao.php?id=<?= $sol['Id'] ?>&acao=recusar" class="btn btn-recusar">Recusar</a>
                         </div>
                     </div>
                 </div>
@@ -68,7 +131,10 @@ $solicitacoes = $stmt->fetchAll();
         </div>
     <?php endif; ?>
 </div>
-<a href="Tela_autonomo.php" class="btn btn-secondary mt-3">Voltar</a>
+
+<div class="d-flex justify-content-center mt-3">
+    <a href="Tela_autonomo.php" class="btn btn-voltar">Voltar</a>
+</div>
 
 </body>
 </html>

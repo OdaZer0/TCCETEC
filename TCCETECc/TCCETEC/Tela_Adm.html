@@ -1,20 +1,118 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tela Inicial autonomo</title>
+    <title>Tela Inicial ADM</title>
+    <!-- Link para o Bootstrap 5 para um design mais moderno e responsivo -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin-top: 50px;
+            padding: 20px;
+        }
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #343a40;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .btn-custom {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .btn-logout {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-logout:hover {
+            background-color: #c82333;
+        }
+
+        .btn-cadastro {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-cadastro:hover {
+            background-color: #218838;
+        }
+
+        .btn-control {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-control:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            display: block;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Bem-vindo à Tela Inicial ADM</h1>
-    <p>Olá, usuário!</p>
-    <form action="logout.php" method="POST">
-        <button type="submit">Sair</button>
-    </form>
-    <form action="Cadastro_Adm.html" method="post">
-        <button type="submit">Cadastrar novo Adm</button>
-    </form>
-    <a href="CrtlADM_User.php">Ir para controle de Usuários</a>
-    <a href="CtrlADM_Autonomo.php">Ir para controle de Autonomos</a>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="text-center">Bem-vindo à Tela Inicial ADM</h1>
+                <p class="text-center">Olá, usuário!</p>
+                <div class="d-flex flex-column gap-3">
+                    <!-- Botão de Logout -->
+                    <form action="logout.php" method="POST">
+                        <button type="submit" class="btn btn-custom btn-logout">Sair</button>
+                    </form>
+                    <!-- Botão para Cadastrar Novo Administrador -->
+                    <form action="Cadastro_Adm.html" method="post">
+                        <button type="submit" class="btn btn-custom btn-cadastro">Cadastrar Novo Adm</button>
+                    </form>
+                    <!-- Links para controle de Usuários e Autônomos -->
+                    <a href="CrtlADM_User.php" class="btn btn-control">Ir para Controle de Usuários</a>
+                    <a href="CtrlADM_Autonomo.php" class="btn btn-control">Ir para Controle de Autônomos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script do Bootstrap 5 (para funcionalidades interativas) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 </body>
+
 </html>

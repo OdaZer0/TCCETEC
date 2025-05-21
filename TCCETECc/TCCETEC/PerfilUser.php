@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto'])) {
 }
 
 .profile-table th {
-    background-color:rgb(255, 145, 0);;
+    background-color: rgb(255, 145, 0); /* Laranja */
     color: #fff;
     font-weight: bold;
     text-transform: uppercase;
@@ -136,8 +136,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto'])) {
 
 
 .btn-primary {
-    background-color: rgb(255, 145, 0);
-    border-color:rgb(255, 145, 0);    
+    background-color: rgb(255, 145, 0); /* Laranja */
+    border-color: rgb(255, 145, 0);    
     color: white;              
     padding: 15px 30px;        
     font-size: 18px;           
@@ -147,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto'])) {
 }
 
 .btn-primary:hover {
-    background-color:rgb(255, 145, 0);
+    background-color: rgb(255, 145, 0); /* Laranja */
     border-color: rgb(255, 145, 0);     
 }
 
@@ -164,13 +164,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto'])) {
 }
 
 .card-header.bg-primary {
-    background-color:rgb(255, 145, 0) !important;
+    background-color: rgb(255, 145, 0) !important; /* Laranja */
 }
 
 .card-header.bg-success {
     background-color: #28a745 !important;
 }
 </style>
+
 <?php include 'header.php'; ?>
 
 <div class="container mt-5">
@@ -179,9 +180,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto'])) {
     <div class="col-md-3 text-center">
            
             <?php if ($user['Foto']): ?>
-                <img src="data:image/jpeg;base64,<?php echo base64_encode($user['Foto']); ?>">
+                <img src="data:image/jpeg;base64,<?php echo base64_encode($user['Foto']); ?>" class="profile-pic">
             <?php else: ?>
-                <img src="imagens/Fundo de Usuário (Sem passar o mouse).png" >
+                <img src="imagens/Fundo de Usuário (Sem passar o mouse).png" class="profile-pic">
             <?php endif; ?>
         </div>
     </div>
