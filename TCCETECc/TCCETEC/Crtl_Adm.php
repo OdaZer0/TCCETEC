@@ -1,5 +1,5 @@
 <?php
-session_start();  // Mover para o início do script
+session_start();  // Sempre iniciar a sessão no começo
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
@@ -20,10 +20,7 @@ $Gravar->setcpf(filter_input(INPUT_POST, 'cpf'));
 $Gravar->setcep(filter_input(INPUT_POST, 'cep'));
 $Gravar->setcargo(filter_input(INPUT_POST, 'cargo'));
 
-// Debug: Verificar os dados recebidos
-var_dump($_POST);  // Para conferir os dados do formulário
-
-// Gerando o hash da senha com salt
+// Gerando o hash da senha
 $senhaHash = password_hash($Gravar->getsenha(), PASSWORD_BCRYPT);
 $Gravar->setsenha($senhaHash);
 
@@ -31,16 +28,32 @@ $Gravar->setsenha($senhaHash);
 $resultado = $GravarPr->cadastrar($Gravar);
 
 if ($resultado === "Cadastrado com Sucesso!") {
-    // Criar sessão para manter o usuário logado após o cadastro
     session_regenerate_id(true);
-    $_SESSION['usuario_id'] = $GravarPr->ultimoIdInserido(); // Pega o ID do novo usuário
-    $_SESSION['user_ip'] = $_SERVER['REMOTE_ADDR'];
-    $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
-    $_SESSION['ultima_atividade'] = time();
 
-    // Redireciona para a Tela Inicial
-    header("Location: Tela_Adm.php");
-    exit();
+    $novoId = $GravarPr->ultimoIdInserido();
+
+    // Buscar dados completos do administrador cadastrado
+    $pdo = Conexao::getConexao();
+    $query = $pdo->prepare("SELECT Id, Email FROM Administrador WHERE Id = :id LIMIT 1");
+    $query->bindParam(':id', $novoId);
+    $query->execute();
+    $user = $query->fetch();
+
+    if ($user) {
+        $_SESSION['usuario_id'] = $user['Id'];
+        $_SESSION['user_email'] = $user['Email'];
+        $_SESSION['usuario_tipo'] = 'ADM';  // Tipo administrador
+        $_SESSION['cr'] = null;  // Admin não tem CR
+        $_SESSION['user_ip'] = $_SERVER['REMOTE_ADDR'];
+        $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+        $_SESSION['ultima_atividade'] = time();
+
+        // Redireciona para a tela do administrador
+        header("Location: Tela_Adm.php");
+        exit();
+    } else {
+        echo json_encode(['erro' => 'Erro ao recuperar dados do administrador após cadastro.']);
+    }
 } else {
-    echo json_encode(["erro" => $resultado]);
+    echo json_encode(['erro' => $resultado]);
 }

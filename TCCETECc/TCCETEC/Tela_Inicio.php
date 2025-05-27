@@ -506,8 +506,8 @@
 <body>
     <a href="ServicosPublicos.php">Ver Serviços</a>
     <a href="AgendaUsuario.php">Agenda</a>
-
-    <<?php include 'header.php'; ?>
+    <a href="PerfilUser.php">Perfil</a>
+    <?php include 'header.php'; ?>
   
 
     <!-- Hero Section -->

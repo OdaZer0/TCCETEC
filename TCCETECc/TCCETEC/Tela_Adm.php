@@ -151,6 +151,7 @@ if (!$user) {
 </head>
 
 <body>
+    <a href="visualizar_reclamacoesfront.php">reclamação</a>
 
     <?php include 'header.php'; ?>
 

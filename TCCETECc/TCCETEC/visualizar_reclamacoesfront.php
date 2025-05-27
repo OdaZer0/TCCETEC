@@ -113,10 +113,10 @@ $reclamacoesOrdenadas = array_merge($pendentes, $resolvidas);
 
 <!-- Botões no início -->
 <div class="container mt-4 text-center">
-    <a href="controle_usuario.php" class="btn btn-usuario btn-lg mx-2">
+    <a href="CrtlADM_User.php" class="btn btn-usuario btn-lg mx-2">
         <i class="bi bi-person"></i> Ir para controle de Usuário
     </a>
-    <a href="controle_autonomo.php" class="btn btn-autonomo btn-lg mx-2">
+    <a href="CtrlADM_Autonomo.php" class="btn btn-autonomo btn-lg mx-2">
         <i class="bi bi-person-fill"></i> Ir para controle de Autônomo
     </a>
     <a href="javascript:history.back()" class="btn btn-secondary btn-lg mx-2">
