@@ -52,46 +52,30 @@
         }
 
         .hero {
-            background: url('https://via.placeholder.com/1920x800/007bff/ffffff?text=Hero+Image') no-repeat center center/cover;
-            color: white;
-            padding: 100px 0;
-            text-align: center;
-            position: relative;
-        }
+    background-image: url('https://vanzolini.org.br/wp-content/uploads/2022/12/mercado-de-trabalho.jpg'); /* Use o link direto da imagem */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 100px 20px;
+    color: white;
+    text-align: center;
+    position: relative;
+}
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
+/* Opcional: Adiciona um fundo escuro semi-transparente por cima da imagem para facilitar a leitura do texto */
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* escurece o fundo */
+    z-index: 0;
+}
 
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 40px;
-        }
-
-        .hero .btn-primary {
-            background-color: #ff6f61;
-            color: white;
-            padding: 12px 25px;
-            font-size: 1.1rem;
-            border-radius: 25px;
-            text-decoration: none;
-        }
-
-        .hero .btn-primary:hover {
-            background-color: #ff4a35;
-        }
+.hero h1, .hero p, .hero a {
+    position: relative;
+    z-index: 1;
+}
 
         /* ------------------- Services ------------------- */
         .services {
@@ -125,8 +109,8 @@
         }
 
         .service-item img {
-            width: 60px;
-            height: 60px;
+            width: 240px;
+            height: 240px;
             margin-bottom: 20px;
         }
 
@@ -504,8 +488,10 @@
 </head>
 
 <body>
-
-    <<?php include 'header.php'; ?>
+    <a href="ServicosPublicos.php">Ver Serviços</a>
+    <a href="AgendaUsuario.php">Agenda</a>
+    <a href="PerfilUser.php">Perfil</a>
+    <?php include 'header.php'; ?>
   
 
     <!-- Hero Section -->
@@ -519,17 +505,17 @@
     <section class="services">
         <h2>Serviços Oferecidos</h2>
         <div class="service-item">
-            <img src="https://via.placeholder.com/50/007bff/ffffff?text=Design" alt="Design Gráfico">
+            <img src="https://s2-g1.glbimg.com/mRq1XukGZF_ACmSsVjkC2epcCVs=/0x0:2121x1414/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2021/m/D/DFYKn5QbSfiHCv21vUTA/foto-1-destaque-g1-unifor-design-grafico-e-digital.jpg" alt="Design Gráfico">
             <h4>Design Gráfico</h4>
             <p>Criação de logotipos, branding, e materiais gráficos personalizados.</p>
         </div>
         <div class="service-item">
-            <img src="https://via.placeholder.com/50/007bff/ffffff?text=Web" alt="Desenvolvimento Web">
+            <img src="https://lh7-us.googleusercontent.com/UVEdb5ZmtZi7rwX6kMOfAP7CJQfckceyqHhH03R-2G8gOQ8koagkVVqkoxdJBAUH90A8GU9VcITnh7cd8j-XCGlunfTcjkw9lyM2Fh1TZ4H9qMHI__DHwewovUdn3gPFT_Vdag2RurL_-Ebr0D9Lhes" alt="Desenvolvimento Web">
             <h4>Desenvolvimento Web</h4>
             <p>Desenvolvimento de sites e lojas online, otimizados e responsivos.</p>
         </div>
         <div class="service-item">
-            <img src="https://via.placeholder.com/50/007bff/ffffff?text=Consultoria" alt="Consultoria">
+            <img src="https://www.idebrasil.com.br/blog/wp-content/uploads/2020/01/blog-conheca-4-tipos-de-consultoria-para-empresas-850x441.jpg" alt="Consultoria">
             <h4>Consultoria</h4>
             <p>Consultoria estratégica para empresas que buscam crescer e inovar.</p>
         </div>
@@ -540,17 +526,17 @@
         <h2>Como Funciona</h2>
         <div class="steps">
             <div class="step">
-                <img src="https://via.placeholder.com/60/007bff/ffffff?text=1" alt="Passo 1">
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Passo 1">
                 <h4>Cadastre-se</h4>
                 <p>Crie uma conta simples e cadastre seus serviços ou contrate freelancers.</p>
             </div>
             <div class="step">
-                <img src="https://via.placeholder.com/60/007bff/ffffff?text=2" alt="Passo 2">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlLnhOwbL6AX3gh6xqEIgUurGQ5dhsIj4XJQ&s" alt="Passo 2">
                 <h4>Escolha o Profissional</h4>
                 <p>Encontre o melhor profissional para o seu projeto entre os freelancers cadastrados.</p>
             </div>
             <div class="step">
-                <img src="https://via.placeholder.com/60/007bff/ffffff?text=3" alt="Passo 3">
+                <img src="https://static-00.iconduck.com/assets.00/like-icon-2048x1982-ihumn0em.png" alt="Passo 3">
                 <h4>Finalize o Projeto</h4>
                 <p>Acompanhe o progresso e finalize o projeto com pagamento seguro.</p>
             </div>

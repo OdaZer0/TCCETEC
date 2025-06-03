@@ -457,4 +457,3 @@ $servicosPorMes = $queryServicosPorMes->fetchAll();
     </script>
 </body>
 
-</html>

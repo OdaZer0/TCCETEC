@@ -130,7 +130,7 @@
 
         <!-- Navigation Menu -->
         <nav class="nav">
-            <a href="telahome.php">MENU PRINCIPAL</a>
+            <a href="Tela_Inicio.php">MENU PRINCIPAL</a>
             <a href="#">AUTÔNOMOS</a>
             <a href="#">FAVORITOS</a>
         </nav>

@@ -113,6 +113,7 @@ Select * From Avaliacao;
 Select * From ReclamaoDenuncia;
 SELECT * FROM ReclamaoDenuncia WHERE Status != 'Resolvido' ORDER BY Data DESC;
 SELECT * FROM ServicoAutonomo;
+Delete From Autonomo Where CR > 1;
 INSERT INTO Usuario (CR, Nome, Email, Senha, Cpf, Cep, Avisos, Foto) VALUES
 (10001, 'João da Silva', 'joao.silva@email.com', 'senha123', '123.456.789-00', '01001-000', 1, NULL),
 (10002, 'Maria Oliveira', 'maria.oliveira@email.com', 'senha456', '987.654.321-00', '02002-000', 0, NULL),
