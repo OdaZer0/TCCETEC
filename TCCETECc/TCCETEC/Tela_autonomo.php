@@ -454,44 +454,31 @@ $servicosPorMes = $queryServicosPorMes->fetchAll();
 
         // Gráfico de Avaliações (Gráfico de Pizza)
         const ratingsChart = new Chart(ctxRatings, {
-    type: 'pie',
-    data: {
-        labels: ['1 estrela', '2 estrelas', '3 estrelas', '4 estrelas', '5 estrelas'],
-        datasets: [{
-            data: <?php echo json_encode(array(
-                $avaliacoes['estrela_1'], 
-                $avaliacoes['estrela_2'], 
-                $avaliacoes['estrela_3'], 
-                $avaliacoes['estrela_4'], 
-                $avaliacoes['estrela_5']
-            )); ?>,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.6)', 
-                'rgba(54, 162, 235, 0.6)', 
-                'rgba(255, 206, 86, 0.6)', 
-                'rgba(75, 192, 192, 0.6)', 
-                'rgba(153, 102, 255, 0.6)'
-            ],
-            borderColor: [
-                'rgb(255, 99, 132)', 
-                'rgb(54, 162, 235)', 
-                'rgb(255, 206, 86)', 
-                'rgb(75, 192, 192)', 
-                'rgb(153, 102, 255)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top'
+            type: 'pie',
+            data: {
+                labels: ['1 estrela', '2 estrelas', '3 estrelas', '4 estrelas', '5 estrelas'],
+                datasets: [{
+                    data: <?php echo json_encode(array(
+                        $avaliacoes[0]['estrela_1'], 
+                        $avaliacoes[0]['estrela_2'], 
+                        $avaliacoes[0]['estrela_3'], 
+                        $avaliacoes[0]['estrela_4'], 
+                        $avaliacoes[0]['estrela_5']
+                    )); ?>,
+                    backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)', 'rgba(75, 192, 192, 0.6)', 'rgba(153, 102, 255, 0.6)'],
+                    borderColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 206, 86)', 'rgb(75, 192, 192)', 'rgb(153, 102, 255)'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                }
             }
-        }
-    }
-});
-
+        });
     </script>
 </body>
 

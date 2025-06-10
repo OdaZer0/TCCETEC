@@ -140,6 +140,7 @@
             <img src="https://e7.pngegg.com/pngimages/722/101/png-clipart-computer-icons-user-profile-circle-abstract-miscellaneous-rim.png" alt="Perfil" class="profile">
             <!-- Dropdown Menu -->
             <div class="dropdown-menu">
+            <a href="tela_iniciouser.php">Perfil</a>
                 <a href="Telainiciocadastro.php">Cadastro e Login</a>
                 <a href="logout.php">Sair</a>
             </div>

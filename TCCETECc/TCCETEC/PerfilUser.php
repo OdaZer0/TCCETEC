@@ -129,18 +129,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto'])) {
         <a href="Tela_Inicio.html" class="btn btn-primary btn-lg rounded-pill">Voltar</a>
     </div>
 
-    <div class="card-link-buttons">
-    <a href="ServicosPublicos.php" class="card-button">
-        <img src="https://cdn-icons-png.flaticon.com/512/1256/1256650.png" alt="Serviços" style="width:60px; height:60px; margin-bottom:10px;">
-        <div>Acessar Serviços</div>
-    </a>
-    <a href="AgendaUsuario.php" class="card-button">
-        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828911.png" alt="Agenda" style="width:60px; height:60px; margin-bottom:10px;">
-        <div>Acessar Agenda</div>
-    </a>
-</div>
-
-</div>
 
 <?php include 'footer.php'; ?>
 </body>
