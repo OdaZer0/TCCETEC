@@ -1,22 +1,47 @@
 <?php
+session_start();
 require 'Conexao.php';
 $conexao = Conexao::getConexao();
 
-// Consulta para pegar as avaliações
-$queryAvaliacoes = $conexao->prepare("
-    SELECT 
-        AutonomoId, 
-        SUM(CASE WHEN Estrela = 1 THEN 1 ELSE 0 END) AS estrela_1,
-        SUM(CASE WHEN Estrela = 2 THEN 1 ELSE 0 END) AS estrela_2,
-        SUM(CASE WHEN Estrela = 3 THEN 1 ELSE 0 END) AS estrela_3,
-        SUM(CASE WHEN Estrela = 4 THEN 1 ELSE 0 END) AS estrela_4,
-        SUM(CASE WHEN Estrela = 5 THEN 1 ELSE 0 END) AS estrela_5
-    FROM Avaliacao
-    GROUP BY AutonomoId
-");
-$queryAvaliacoes->execute();
-$avaliacoes = $queryAvaliacoes->fetchAll();
+// Pega o ID do usuário logado e atribui à variável autonomoId
+$autonomoId = $_SESSION['usuario_id'] ?? null;
 
+$media = 0;
+$estrela_1 = $estrela_2 = $estrela_3 = $estrela_4 = $estrela_5 = 0;
+
+if ($autonomoId !== null) {
+    $queryAvaliacoes = $conexao->prepare("
+        SELECT 
+            SUM(CASE WHEN Estrela = 1 THEN 1 ELSE 0 END) AS estrela_1,
+            SUM(CASE WHEN Estrela = 2 THEN 1 ELSE 0 END) AS estrela_2,
+            SUM(CASE WHEN Estrela = 3 THEN 1 ELSE 0 END) AS estrela_3,
+            SUM(CASE WHEN Estrela = 4 THEN 1 ELSE 0 END) AS estrela_4,
+            SUM(CASE WHEN Estrela = 5 THEN 1 ELSE 0 END) AS estrela_5
+        FROM Avaliacao
+        WHERE AutonomoId = :autonomoId
+    ");
+    $queryAvaliacoes->bindParam(':autonomoId', $autonomoId, PDO::PARAM_INT);
+    $queryAvaliacoes->execute();
+    $avaliacoes = $queryAvaliacoes->fetch(PDO::FETCH_ASSOC);
+
+    $estrela_1 = $avaliacoes['estrela_1'] ?? 0;
+    $estrela_2 = $avaliacoes['estrela_2'] ?? 0;
+    $estrela_3 = $avaliacoes['estrela_3'] ?? 0;
+    $estrela_4 = $avaliacoes['estrela_4'] ?? 0;
+    $estrela_5 = $avaliacoes['estrela_5'] ?? 0;
+
+    $totalAvaliacoes = $estrela_1 + $estrela_2 + $estrela_3 + $estrela_4 + $estrela_5;
+
+    if ($totalAvaliacoes > 0) {
+        $media = (
+            $estrela_1 * 1 +
+            $estrela_2 * 2 +
+            $estrela_3 * 3 +
+            $estrela_4 * 4 +
+            $estrela_5 * 5
+        ) / $totalAvaliacoes;
+    }
+}
 // Consulta para pegar o total de serviços por mês
 $queryServicosPorMes = $conexao->prepare("
     SELECT 
@@ -305,7 +330,7 @@ $servicosPorMes = $queryServicosPorMes->fetchAll();
                             <canvas id="ratingsChart"></canvas>
                         </div>
                         <div class="mt-3">
-                            <p><strong>Avaliação Total:</strong> <span id="totalRating">4.2</span> / 5</p>
+                        <p><strong>Avaliação Total:</strong> <span id="totalRating"><?php echo number_format($media, 1); ?></span> / 5</p>
                         </div>
                     </div>
                 </div>
@@ -429,31 +454,44 @@ $servicosPorMes = $queryServicosPorMes->fetchAll();
 
         // Gráfico de Avaliações (Gráfico de Pizza)
         const ratingsChart = new Chart(ctxRatings, {
-            type: 'pie',
-            data: {
-                labels: ['1 estrela', '2 estrelas', '3 estrelas', '4 estrelas', '5 estrelas'],
-                datasets: [{
-                    data: <?php echo json_encode(array(
-                        $avaliacoes[0]['estrela_1'], 
-                        $avaliacoes[0]['estrela_2'], 
-                        $avaliacoes[0]['estrela_3'], 
-                        $avaliacoes[0]['estrela_4'], 
-                        $avaliacoes[0]['estrela_5']
-                    )); ?>,
-                    backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)', 'rgba(75, 192, 192, 0.6)', 'rgba(153, 102, 255, 0.6)'],
-                    borderColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 206, 86)', 'rgb(75, 192, 192)', 'rgb(153, 102, 255)'],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top'
-                    }
-                }
+    type: 'pie',
+    data: {
+        labels: ['1 estrela', '2 estrelas', '3 estrelas', '4 estrelas', '5 estrelas'],
+        datasets: [{
+            data: <?php echo json_encode(array(
+                $avaliacoes['estrela_1'], 
+                $avaliacoes['estrela_2'], 
+                $avaliacoes['estrela_3'], 
+                $avaliacoes['estrela_4'], 
+                $avaliacoes['estrela_5']
+            )); ?>,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.6)', 
+                'rgba(54, 162, 235, 0.6)', 
+                'rgba(255, 206, 86, 0.6)', 
+                'rgba(75, 192, 192, 0.6)', 
+                'rgba(153, 102, 255, 0.6)'
+            ],
+            borderColor: [
+                'rgb(255, 99, 132)', 
+                'rgb(54, 162, 235)', 
+                'rgb(255, 206, 86)', 
+                'rgb(75, 192, 192)', 
+                'rgb(153, 102, 255)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top'
             }
-        });
+        }
+    }
+});
+
     </script>
 </body>
 
