@@ -2,22 +2,18 @@
 session_start();
 include 'conexao.php';
 
-// Verifica se o usuário está logado
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: login.php");
     exit();
 }
 
-// Conectar ao banco de dados
 $pdo = Conexao::getConexao();
 
-// Buscar informações do usuário logado
 $query = $pdo->prepare("SELECT * FROM Administrador WHERE Id = :id");
 $query->bindParam(':id', $_SESSION['usuario_id']);
 $query->execute();
 $user = $query->fetch();
 
-// Se o usuário não for encontrado, redireciona
 if (!$user) {
     header("Location: login.php");
     exit();
@@ -29,134 +25,157 @@ if (!$user) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil do Usuário</title>
+    <title>Perfil do Administrador</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
-            margin-top: 50px;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
         }
 
         .container {
-            background: white;
-            padding: 30px;
+            background: #ffffff;
+            max-width: 1100px;
+            margin: 60px auto;
+            padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
-        .profile-info h1 {
-            font-size: 26px;
-            font-weight: bold;
-            color: #343a40;
-        }
-
-        .profile-info p {
-            font-size: 16px;
-        }
-
-        .profile-image img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .cards-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-        }
-
-        .card {
-            width: 45%;
-            border-radius: 10px;
-            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-            position: relative;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: opacity 0.3s ease;
-        }
-
-        .card:hover img {
-            opacity: 0.7;
-        }
-
-        .card-body {
-            padding: 20px;
-            text-align: center;
-            background-color: #18486b;
-            color: white;
-        }
-
-        .card-body a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .card-body a:hover {
-            text-decoration: underline;
-        }
-
-        .card-body h3 {
-            margin-bottom: 15px;
-        }
-
-        .profile-info input {
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-        .profile-info input:disabled {
-            background-color: #f1f1f1;
-        }
-
-        .profile-section {
+        .profile-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .profile-info {
+            flex: 1;
+            padding-right: 30px;
+        }
+
+        .profile-info h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: 500;
+        }
+
+        .form-control[disabled] {
+            background-color: #f8f9fa;
+        }
+
+        .profile-image img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #0d6efd;
         }
 
         .btn-logout {
             background-color: #dc3545;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
+            color: #fff;
             border: none;
-            cursor: pointer;
-            font-weight: bold;
+            padding: 10px 25px;
+            border-radius: 5px;
+            margin-top: 20px;
         }
 
         .btn-logout:hover {
             background-color: #c82333;
         }
 
-        .text-muted {
-            font-size: 14px;
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            flex: 1 1 calc(33.333% - 20px);
+            background-color: #fff;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 20px;
+            background-color: #18486b;
+            text-align: center;
+        }
+
+        .card-body h3 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .card-body a {
+            color: #ffffff;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .card-body a:hover {
+            text-decoration: none;
+        }
+
+        @media (max-width: 992px) {
+            .card {
+                flex: 1 1 calc(50% - 15px);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-info {
+                padding-right: 0;
+                margin-bottom: 30px;
+            }
+
+            .cards-container {
+                flex-direction: column;
+            }
+
+            .card {
+                flex: 1 1 100%;
+            }
         }
     </style>
 </head>
 
 <body>
-    <a href="visualizar_reclamacoesfront.php">reclamação</a>
 
     <?php include 'header.php'; ?>
 
     <div class="container">
-        <div class="profile-section">
+        <div class="profile-header">
             <div class="profile-info">
                 <h1>Perfil do Administrador</h1>
                 <div class="mb-3">
@@ -182,18 +201,26 @@ if (!$user) {
 
         <div class="cards-container">
             <div class="card">
-                <img src="imagens/Fundo de Usuário (Sem passar o Mouse).png" alt="Autônomo">
+                <img src="imagens/Fundo de Usuário (Sem passar o Mouse).png" alt="Controle de Usuários">
                 <div class="card-body">
-                    <h3>Controle de Usuário</h3>
-                    <a href="CrtlADM_User.php">Ir para o Controle de Usuário</a>
+                    <h3>Controle de Usuários</h3>
+                    <a href="CrtlADM_User.php">Acessar</a>
                 </div>
             </div>
 
             <div class="card">
-                <img src="imagens/Fundo de Autônomo (Sem passar o Mouse).png" alt="Autônomo">
+                <img src="imagens/Fundo de Autônomo (Sem passar o Mouse).png" alt="Controle de Autônomos">
                 <div class="card-body">
                     <h3>Controle de Autônomos</h3>
-                    <a href="CtrlADM_Autonomo.php">Ir para o Controle de Autônomos</a>
+                    <a href="CtrlADM_Autonomo.php">Acessar</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0ogA5OeuW1UJPYPE1DEjXXZ7ZBy26JTCXCw&s" alt="Visualizar Reclamações">
+                <div class="card-body">
+                    <h3>Reclamações</h3>
+                    <a href="visualizar_reclamacoesfront.php">Acessar</a>
                 </div>
             </div>
         </div>

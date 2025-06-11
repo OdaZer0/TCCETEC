@@ -488,11 +488,6 @@
 </head>
 
 <body>
-    <a href="ServicosPublicos.php">Ver Serviços</a>
-    <a href="AgendaUsuario.php">Agenda</a>
-    <a href="PerfilUser.php">Perfil</a>
-    <?php include 'header.php'; ?>
-  
 
     <!-- Hero Section -->
     <section class="hero">

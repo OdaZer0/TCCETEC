@@ -27,7 +27,6 @@ try {
     $pdo = new Conexao();
     $con = $pdo->getConexao();
 
-    // Verificando se o usuário existe antes de atualizar
     $sqlCheck = "SELECT * FROM Autonomo WHERE cr = ?";
     $stmtCheck = $con->prepare($sqlCheck);
     $stmtCheck->bindValue(1, $cr);
@@ -38,7 +37,6 @@ try {
         exit();
     }
 
-    // Atualizando o campo Avisos (Se NULL, inicializa com 0 e adiciona 1, senão incrementa 1)
     $sqlUpdate = "UPDATE Autonomo SET Avisos = COALESCE(Avisos, 0) + 1 WHERE cr = ?";
     $stmtUpdate = $con->prepare($sqlUpdate);
     $stmtUpdate->bindValue(1, $cr);
