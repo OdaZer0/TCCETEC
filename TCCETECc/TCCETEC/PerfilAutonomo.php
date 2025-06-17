@@ -313,7 +313,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto'])) {
     <!-- Botões de ação -->
     <div class="d-flex justify-content-center mt-4">
         <a href="EditarAutonomo.php" class="btn btn-primary">Editar Perfil</a>
-        <a href="Tela_Autonomo.html" class="btn btn-secondary ml-3">Voltar</a>
+        <a href="Tela_Autonomo.php" class="btn btn-secondary ml-3">Voltar</a>
     </div>
 
 </div>

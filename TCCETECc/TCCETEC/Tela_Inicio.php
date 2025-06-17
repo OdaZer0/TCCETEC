@@ -488,6 +488,7 @@
 </head>
 
 <body>
+<?php include 'header.php'; ?>
 
     <!-- Hero Section -->
     <section class="hero">

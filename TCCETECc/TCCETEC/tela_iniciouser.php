@@ -316,13 +316,13 @@ if (!$avatarBase64) {
     <section class="card" aria-labelledby="servicos-header">
         <h2 id="servicos-header" class="card-header">Serviços Recentes</h2>
         <p class="card-body">Acompanhe os serviços que você contratou recentemente com facilidade e rapidez.</p>
-        <button class="btn btn-primary" onclick="window.location.href='Servicos.php'">Ver Meus Serviços</button>
+        <button class="btn btn-primary" onclick="window.location.href='AgendaUsuario.php'">Ver Meus Serviços</button>
     </section>
 
     <section class="card" aria-labelledby="solicitacoes-header">
         <h2 id="solicitacoes-header" class="card-header">Solicitações</h2>
         <p class="card-body">Confira suas solicitações pendentes e em andamento para manter tudo sob controle.</p>
-        <button class="btn btn-primary" onclick="window.location.href='solicitar_servico.php'">Ver Solicitações</button>
+        <button class="btn btn-primary" onclick="window.location.href='ServicosPublicos.php'">Ver Solicitações</button>
     </section>
 
     <section class="card" aria-labelledby="perfil-header">

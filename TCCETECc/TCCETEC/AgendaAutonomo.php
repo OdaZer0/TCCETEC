@@ -118,14 +118,19 @@ $servicos = $stmt->fetchAll();
                             <p><strong>CR do Usuário:</strong> <?= htmlspecialchars($servico['CR']) ?></p>
                             <div class="d-flex justify-content-between">
                                 <!-- Botão Cancelar -->
-                                <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#cancelarModal<?= $servico['Id'] ?>"><i class="fas fa-ban"></i> Cancelar</button>
+                                <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#cancelarModal<?= $servico['Id'] ?>">
+                                    <i class="fas fa-ban"></i> Cancelar
+                                </button>
 
-                                <!-- Botão Concluído (só habilitado no dia do serviço) -->
-                                <?php if (date('Y-m-d') == date('Y-m-d', strtotime($servico['DataSolicitada']))): ?>
-                                    <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#concluirModal<?= $servico['Id'] ?>"><i class="fas fa-check"></i> Concluído</button>
-                                <?php else: ?>
-                                    <button class="btn btn-secondary btn-sm" disabled><i class="fas fa-check"></i> Concluído</button>
-                                <?php endif; ?>
+                                <!-- Botão Concluído -->
+                                <button class="btn btn-success btn-sm btn-concluir" 
+                                    data-id="<?= $servico['Id'] ?>" 
+                                    data-data="<?= date('Y-m-d', strtotime($servico['DataSolicitada'])) ?>"
+ 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#concluirModal<?= $servico['Id'] ?>">
+                                    <i class="fas fa-check"></i> Concluído
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -185,5 +190,25 @@ $servicos = $stmt->fetchAll();
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.querySelectorAll('.btn-concluir').forEach(btn => {
+    const dataServicoStr = btn.getAttribute('data-data'); // Ex: "2025-06-16"
+    const dataServico = new Date(dataServicoStr + 'T00:00:00'); // evita problema fuso horário
+    const agora = new Date();
+    const hoje = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
+
+    function mesmaData(d1, d2) {
+        return d1.getTime() === d2.getTime();
+    }
+
+    if (!mesmaData(hoje, dataServico)) {
+        btn.disabled = true;
+        btn.classList.remove('btn-success');
+        btn.classList.add('btn-secondary');
+    }
+});
+
+</script>
+
 </body>
 </html>

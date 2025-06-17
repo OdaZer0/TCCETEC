@@ -89,17 +89,6 @@ CREATE TABLE ReclamaoDenuncia (
 ); 
 
 
-CREATE DATABASE chat_app;
-
-USE chat_app;
-
-CREATE TABLE mensagens (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    usuario VARCHAR(255) NOT NULL,
-    mensagem TEXT NOT NULL,
-    data_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
 SHOW TABLES;
 drop database Automatiza;
 desc Usuario;
@@ -136,6 +125,17 @@ INSERT INTO Autonomo (CR, Nome, Email, Senha, Cpf, Cep, AreaAtuacao, NivelFormac
 (20008, 'Thiago Rocha', 'thiago.rocha@email.com', 'thiagopass', '666.777.888-99', '18008-000', 'Psicologia', 'Graduação', 1, NULL),
 (20009, 'Beatriz Nogueira', 'beatriz.nogueira@email.com', 'bea123', '111.333.555-77', '19009-000', 'Serviço Social', 'Mestrado', 2, NULL),
 (20010, 'André Barbosa', 'andre.barbosa@email.com', 'andrepass', '888.999.000-11', '20010-000', 'Psicologia', 'Doutorado', 0, NULL);
+INSERT INTO Administrador (Nome, Email, Senha, Cpf, Cep, Cargo, Foto)
+VALUES (
+    'João Silva', 
+    'ADM@gmail', 
+    '123', 
+    '123.456.789-00', 
+    '12345-678', 
+    'Administrador', 
+    NULL
+);
+
 
 
 

@@ -300,7 +300,7 @@ $servicosPorMes = $queryServicosPorMes->fetchAll();
         <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" href="#">Autônomo App</a>
             <div class="d-flex align-items-center">
-                <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#notificationModal">Notificações <span class="notification-badge">5</span></button>
+                <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#notificationModal">Notificações </button>
             </div>
         </nav>
 
@@ -387,10 +387,10 @@ $servicosPorMes = $queryServicosPorMes->fetchAll();
         <!-- Botões de Ação -->
         <div class="row">
             <div class="col-md-6">
-                <button class="btn-action">Criar Novo Serviço</button>
+                <button class="btn-action" onclick="window.location.href='MeusServicos.php'">Criar Novo Serviço</button>
             </div>
             <div class="col-md-6">
-                <button class="btn-action" onclick="window.location.href='MeusServicos.php'">Ver Solicitações</button>
+                <button class="btn-action" onclick="window.location.href='SolicitacoesAutonomo.php'">Ver Solicitações</button>
             </div>
         </div>
 
@@ -459,12 +459,13 @@ $servicosPorMes = $queryServicosPorMes->fetchAll();
                 labels: ['1 estrela', '2 estrelas', '3 estrelas', '4 estrelas', '5 estrelas'],
                 datasets: [{
                     data: <?php echo json_encode(array(
-                        $avaliacoes[0]['estrela_1'], 
-                        $avaliacoes[0]['estrela_2'], 
-                        $avaliacoes[0]['estrela_3'], 
-                        $avaliacoes[0]['estrela_4'], 
-                        $avaliacoes[0]['estrela_5']
-                    )); ?>,
+                        $estrela_1,
+                        $estrela_2,
+                        $estrela_3,
+                        $estrela_4,
+                        $estrela_5
+                    )); ?>
+,
                     backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)', 'rgba(75, 192, 192, 0.6)', 'rgba(153, 102, 255, 0.6)'],
                     borderColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 206, 86)', 'rgb(75, 192, 192)', 'rgb(153, 102, 255)'],
                     borderWidth: 1
