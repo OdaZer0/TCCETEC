@@ -217,7 +217,7 @@ if (!$user) {
             </div>
 
             <div class="card">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0ogA5OeuW1UJPYPE1DEjXXZ7ZBy26JTCXCw&s" alt="Visualizar Reclamações">
+                <img src="imagens/Reclamacao.jpeg" alt="Visualizar Reclamações">
                 <div class="card-body">
                     <h3>Reclamações</h3>
                     <a href="visualizar_reclamacoesfront.php">Acessar</a>

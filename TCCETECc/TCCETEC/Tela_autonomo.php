@@ -45,15 +45,18 @@ if ($autonomoId !== null) {
 // Consulta para pegar o total de serviços por mês
 $queryServicosPorMes = $conexao->prepare("
     SELECT 
-        YEAR(DataCadastro) AS ano,
-        MONTH(DataCadastro) AS mes,
-        COUNT(Id) AS total_servicos
-    FROM ServicoAutonomo
-    GROUP BY YEAR(DataCadastro), MONTH(DataCadastro)
+        YEAR(sa.DataCadastro) AS ano,
+        MONTH(sa.DataCadastro) AS mes,
+        COUNT(ss.Id) AS total_servicos
+    FROM ServicoAutonomo sa
+    INNER JOIN SolicitacoesServico ss ON ss.IdServico = sa.Id
+    WHERE ss.Status = 'concluído'
+    GROUP BY YEAR(sa.DataCadastro), MONTH(sa.DataCadastro)
     ORDER BY ano DESC, mes DESC
 ");
 $queryServicosPorMes->execute();
 $servicosPorMes = $queryServicosPorMes->fetchAll();
+
 ?>
 
 <!DOCTYPE html>
